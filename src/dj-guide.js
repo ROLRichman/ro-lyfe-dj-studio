@@ -681,7 +681,7 @@ function announceLiveNext() {
 function populateGuideVoices() {
   const selector = guide$("djGuideVoiceChoice");
   if (!selector || !("speechSynthesis" in window)) return;
-  const saved = localStorage.getItem("rolyfe-coach-voice-uri") || "";
+  const saved = localStorage.getItem("goldensteal-coach-voice-uri") || "";
   const voices = window.speechSynthesis.getVoices();
   selector.replaceChildren(new Option("DEVICE DEFAULT", ""));
   voices.forEach(voice => selector.add(new Option(voice.name + " · " + voice.lang, voice.voiceURI)));
@@ -888,13 +888,13 @@ function bindGuide() {
   }
 
   installControlHelp();
-  followMix = localStorage.getItem('rolyfe-coach-follow-mix') !== 'off';
+  followMix = localStorage.getItem('goldensteal-coach-follow-mix') !== 'off';
   const followToggle = guide$('djGuideFollowMix');
   if (followToggle) {
     followToggle.checked = followMix;
     followToggle.addEventListener('change', () => {
       followMix = followToggle.checked;
-      localStorage.setItem('rolyfe-coach-follow-mix', followMix ? 'on' : 'off');
+      localStorage.setItem('goldensteal-coach-follow-mix', followMix ? 'on' : 'off');
       if (followMix) {
         activeLesson = 'autoBlend';
         guide$('djGuideLesson').value = 'autoBlend';
@@ -913,27 +913,27 @@ function bindGuide() {
   if ("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged = populateGuideVoices;
   const voiceChoice = guide$("djGuideVoiceChoice");
   voiceChoice?.addEventListener("change", () => {
-    localStorage.setItem("rolyfe-coach-voice-uri", voiceChoice.value);
+    localStorage.setItem("goldensteal-coach-voice-uri", voiceChoice.value);
     guide$("djGuideStatus").textContent = voiceChoice.value ? "Voice preference saved on this device." : "Using the device default voice.";
   });
   const volumeControl = guide$("djGuideVoiceVolume");
   const volumeOutput = guide$("djGuideVoiceVolumeValue");
   if (volumeControl) {
-    const savedVolume = localStorage.getItem("rolyfe-coach-volume");
+    const savedVolume = localStorage.getItem("goldensteal-coach-volume");
     if (savedVolume !== null) volumeControl.value = savedVolume;
     if (volumeOutput) volumeOutput.textContent = Math.round(Number(volumeControl.value) * 100) + "%";
     volumeControl.addEventListener("input", () => {
-      localStorage.setItem("rolyfe-coach-volume", volumeControl.value);
+      localStorage.setItem("goldensteal-coach-volume", volumeControl.value);
       if (volumeOutput) volumeOutput.textContent = Math.round(Number(volumeControl.value) * 100) + "%";
     });
   }
   const continuous = guide$("djGuideContinuous");
-  continuousCoach = localStorage.getItem("rolyfe-coach-continuous") !== "off";
+  continuousCoach = localStorage.getItem("goldensteal-coach-continuous") !== "off";
   if (continuous) {
     continuous.checked = continuousCoach;
     continuous.addEventListener("change", () => {
       continuousCoach = continuous.checked;
-      localStorage.setItem("rolyfe-coach-continuous", continuousCoach ? "on" : "off");
+      localStorage.setItem("goldensteal-coach-continuous", continuousCoach ? "on" : "off");
     });
   }
 
@@ -969,12 +969,12 @@ function bindGuide() {
     if (followMix && !workflowLesson) {
       followMix = false;
       if (guide$('djGuideFollowMix')) guide$('djGuideFollowMix').checked = false;
-      localStorage.setItem('rolyfe-coach-follow-mix', 'off');
+      localStorage.setItem('goldensteal-coach-follow-mix', 'off');
       setCoachReceipt('FOLLOW MY MIX PAUSED · MANUAL LESSON SELECTED', 'neutral');
     } else if (workflowLesson && !followMix) {
       followMix = true;
       if (guide$('djGuideFollowMix')) guide$('djGuideFollowMix').checked = true;
-      localStorage.setItem('rolyfe-coach-follow-mix', 'on');
+      localStorage.setItem('goldensteal-coach-follow-mix', 'on');
     }
     lastFollowStage = '';
     renderGuideStep(true);

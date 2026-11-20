@@ -53,9 +53,16 @@ const questionCount = (questions.match(/^\s+\["/gm) || []).length;
 if (questionCount !== 30) fail('Expected 30 coach questions; found ' + questionCount);
 else pass('Exactly 30 coach questions are present');
 
-if (!questions.includes('MediaRecorder') || !questions.includes("indexedDB.open('rolyfe-coach-voice-clips'")) {
+if (!questions.includes('MediaRecorder') || !questions.includes("indexedDB.open('goldensteal-coach-voice-clips'")) {
   fail('Personal voice recording is missing microphone recording or local persistence');
 } else pass('Personal voice clips use MediaRecorder and device-local storage');
+
+if (!main.includes("CRATE_DB_NAME = 'goldensteal-local-crate'")
+  || !questions.includes("indexedDB.open('goldensteal-coach-voice-clips'")
+  || !controls.includes("const SAMPLE_DB = 'goldensteal-fx-sample-bank'")) {
+  fail('Existing device-local music, coach, or FX sample stores were not preserved across the rebrand');
+} else pass('Existing device-local music, coach recordings, and FX sample stores remain compatible');
+
 
 if (!guide.includes('djGuideVoiceChoice') || !guide.includes('djGuideVoiceVolume') || !guide.includes('ROLyfeCoachStopCustomVoice')) {
   fail('Coach voice selection, independent volume or Voice OFF behavior is missing');

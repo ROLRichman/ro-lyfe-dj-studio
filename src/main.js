@@ -6,7 +6,8 @@ const deckState = {
   B: { audio: document.getElementById('audioB'), objectUrl: null, file: null, cue: 0, cueSet: false, hotCues: [null, null, null, null, null, null, null, null], tapTimes: [], isStream: false, isRemote: false, streamUrl: null, lastPauseAt: 0, loop: null, waveform: null, bpm: 120, jogPointer: null, jogLastAngle: 0, jogRotation: 0, jogLastTime: 0, jogLastMoveAt: 0, jogLastDelta: 0 }
 };
 const library = [];
-const CRATE_DB_NAME = 'rolyfe-local-crate';
+// Preserve the established browser store so imported tracks and deck assignments survive the rebrand.
+const CRATE_DB_NAME = 'goldensteal-local-crate';
 const CRATE_DB_VERSION = 1;
 let crateDbPromise = null;
 const storedFiles = new Map();
@@ -939,7 +940,7 @@ function setupWheelSpinControls() {
     const platter = $('platter' + deckId);
     const button = document.querySelector(`[data-action="wheel-spin"][data-deck="${deckId}"]`);
     let paused = false;
-    try { paused = localStorage.getItem('rolyfe-wheel-spin-' + deckId) === 'paused'; } catch (_) {}
+    try { paused = localStorage.getItem('goldensteal-wheel-spin-' + deckId) === 'paused'; } catch (_) {}
     platter.classList.toggle('spin-paused', paused);
     if (button) {
       button.setAttribute('aria-pressed', String(!paused));
@@ -988,7 +989,7 @@ function bindEvents() {
       button.setAttribute('aria-pressed', String(!paused));
       button.textContent = paused ? 'RESUME SPIN' : 'PAUSE SPIN';
       button.title = paused ? 'Resume decorative wheel rotation' : 'Pause decorative wheel rotation';
-      try { localStorage.setItem('rolyfe-wheel-spin-' + deckId, paused ? 'paused' : 'on'); } catch (_) {}
+      try { localStorage.setItem('goldensteal-wheel-spin-' + deckId, paused ? 'paused' : 'on'); } catch (_) {}
       toast(paused ? 'Deck ' + deckId + ' wheel animation paused. Audio and jog controls are unchanged.' : 'Deck ' + deckId + ' wheel animation resumed.');
     }
     if (action === 'radio') { document.getElementById('radio-studio').scrollIntoView({behavior:'smooth'}); document.getElementById('radioStreamUrl').focus({preventScroll:true}); }

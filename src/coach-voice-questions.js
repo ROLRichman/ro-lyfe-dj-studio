@@ -46,7 +46,7 @@
   function openDb() {
     if (dbPromise) return dbPromise;
     dbPromise = new Promise((resolve, reject) => {
-      const request = indexedDB.open('rolyfe-coach-voice-clips', 1);
+      const request = indexedDB.open('goldensteal-coach-voice-clips', 1);
       request.onupgradeneeded = () => {
         if (!request.result.objectStoreNames.contains('answers')) {
           request.result.createObjectStore('answers', { keyPath: 'questionId' });

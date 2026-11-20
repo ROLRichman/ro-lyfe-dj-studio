@@ -274,7 +274,7 @@ async function playFxPad(kind) {
   });
 }
 
-const midiMapKey='rolyfe-midi-map-v1';
+const midiMapKey='goldensteal-midi-map-v1';
 let midiAccess=null, midiLearnArmed=false;
 let midiMappings=JSON.parse(localStorage.getItem(midiMapKey)||'{}');
 function midiTargetElement(selector){ try{return document.querySelector(selector);}catch{return null;} }

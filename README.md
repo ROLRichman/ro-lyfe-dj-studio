@@ -21,7 +21,7 @@ There is no welcome gate, sign-in screen, or separate “Enter Studio” button.
 
 ## Important notes
 
-- Local music is stored in the browser on the device where it was imported. It does not automatically sync between devices.
+- Local music is stored in the browser on the device where it was imported. It does not automatically sync between devices. Existing device-local music, coach recordings, FX samples, and saved studio preferences retain their established browser-storage identifiers across the rebrand, so data already on the same browser profile remains accessible.
 - A radio station must provide a direct HTTPS audio stream that permits browser playback. A website or embedded-player page is not necessarily a stream URL.
 - YouTube and YouTube Music open as separate services; they are not treated as downloadable deck audio.
 - Browser audio recording, MIDI, and streaming behavior depends on browser/device support and permissions.

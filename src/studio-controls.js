@@ -8,7 +8,7 @@
   function applyTheme(theme) {
     const chosen = themes.includes(theme) ? theme : 'golden-signature';
     document.body.dataset.theme = chosen;
-    try { localStorage.setItem('rolyfe-studio-theme', chosen); } catch (_) {}
+    try { localStorage.setItem('goldensteal-studio-theme', chosen); } catch (_) {}
     const meta = document.querySelector('meta[name="theme-color"]');
     const colors = {
       'golden-signature':'#090909','midnight-blue':'#071426','ocean-teal':'#062324',
@@ -24,7 +24,7 @@
 
   function setupThemePicker() {
     let saved = 'golden-signature';
-    try { saved = localStorage.getItem('rolyfe-studio-theme') || saved; } catch (_) {}
+    try { saved = localStorage.getItem('goldensteal-studio-theme') || saved; } catch (_) {}
     applyTheme(saved);
     document.querySelectorAll('[data-theme-choice]').forEach(button => {
       button.addEventListener('click', () => {
@@ -111,7 +111,7 @@
     document.addEventListener('keydown', event => { if (event.key === 'Escape') shut(); });
   }
 
-  const SAMPLE_DB = 'rolyfe-fx-sample-bank';
+  const SAMPLE_DB = 'goldensteal-fx-sample-bank';
   let dbPromise = null;
   const decodedBuffers = new Map();
   let slotRecords = new Map();
@@ -244,11 +244,11 @@
     const slider = $('fxOutputVolume');
     const output = $('fxOutputVolumeValue');
     let saved = '0.8';
-    try { saved = localStorage.getItem('rolyfe-fx-volume') || saved; } catch (_) {}
+    try { saved = localStorage.getItem('goldensteal-fx-volume') || saved; } catch (_) {}
     if (slider) slider.value = saved;
     if (output && slider) output.textContent = Math.round(Number(slider.value) * 100) + '%';
     slider?.addEventListener('input', () => {
-      try { localStorage.setItem('rolyfe-fx-volume', slider.value); } catch (_) {}
+      try { localStorage.setItem('goldensteal-fx-volume', slider.value); } catch (_) {}
       if (output) output.textContent = Math.round(Number(slider.value) * 100) + '%';
     });
   }
