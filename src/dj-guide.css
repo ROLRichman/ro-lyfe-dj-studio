@@ -1,0 +1,163 @@
+/* RO’Lyfe DJ Guide + Auto Blend polish */
+.mixer-head-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.dj-guide-launch{white-space:nowrap;padding:9px 12px;font:8px var(--mono);letter-spacing:.65px}
+.auto-blend-wrap{position:relative}
+.auto-blend-status{grid-column:1/-1;min-height:12px;font:7px var(--mono);letter-spacing:.5px;color:#a9966a;white-space:normal}
+.auto-blend-button{transition:filter .2s,box-shadow .2s,transform .2s}
+.auto-blend-button.is-running{border-color:#f3d58e!important;color:#fff0c6!important;box-shadow:0 0 0 2px #d7ac5740,0 0 22px #dfb85b88!important;animation:djBlendPulse 1.05s ease-in-out infinite}
+.crossfader-zone.auto-blending{border-color:#c99f55;box-shadow:0 0 0 1px #d7b76b40,0 0 26px #d8ae5a55;border-radius:9px;transition:box-shadow .2s}
+.crossfader-zone.auto-blending .crossfader{accent-color:#ffe29a;filter:drop-shadow(0 0 7px #ffdc83);animation:djFaderGlow 1.1s ease-in-out infinite}
+@keyframes djBlendPulse{50%{filter:brightness(1.35);box-shadow:0 0 0 3px #e9c97855,0 0 30px #e1bd6caa}}
+@keyframes djFaderGlow{50%{filter:drop-shadow(0 0 12px #ffe29a)}}
+.dj-guide-highlight,.dj-guide-highlight-persistent{position:relative!important;z-index:30!important;outline:2px solid #f5d27e!important;outline-offset:4px!important;box-shadow:0 0 0 5px #e6bd6650,0 0 28px 8px #f1c96cbb!important;animation:djGuideSpotlight 1.05s ease-in-out infinite!important;border-radius:7px!important}
+@keyframes djGuideSpotlight{0%,100%{filter:brightness(1.08)}50%{filter:brightness(1.55) saturate(1.25)}}
+.dj-guide-panel{display:none;position:fixed;right:16px;bottom:16px;z-index:140;width:min(470px,calc(100vw - 24px));max-height:min(74vh,720px);overflow:auto;padding:15px 16px 13px;border:1px solid #987944;border-radius:13px;background:linear-gradient(145deg,#171a16f7,#0b0e0df7);box-shadow:0 18px 65px #000c;color:#eee4c9;backdrop-filter:blur(15px)}
+.dj-guide-panel.open{display:block}
+.dj-guide-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.dj-guide-top h2{font:600 23px var(--head);margin:3px 0 0;color:#f0dfb8}
+.dj-guide-close{width:34px;height:34px;border:1px solid #645439;border-radius:7px;background:#211d14;color:#f2d796;font-size:22px}
+.dj-guide-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:end;margin-top:12px}
+.dj-guide-toolbar label{display:flex;flex-direction:column;gap:5px;font:8px var(--mono);letter-spacing:.7px;color:#b7a57a}
+.dj-guide-toolbar select,.dj-guide-toggle{height:35px;min-width:0;border:1px solid #675638;border-radius:6px;background:#111511;color:#efddb1;padding:0 9px;font:8px var(--mono)}
+.dj-guide-toggle[aria-pressed=true]{border-color:#d4ad60;background:#352817;box-shadow:0 0 13px #d6a54c50}
+.dj-guide-progress{display:flex;align-items:center;gap:10px;margin-top:13px;font:7px var(--mono);letter-spacing:.7px;color:#d0b675}
+.dj-guide-progress-track{height:4px;flex:1;background:#34342b;border-radius:8px;overflow:hidden}
+.dj-guide-progress-track i{display:block;height:100%;width:20%;background:linear-gradient(90deg,#a87d39,#f6d58b);transition:width .25s}
+.dj-guide-step{padding:13px 0 9px}
+.dj-guide-step-kicker{font:7px var(--mono);letter-spacing:1.2px;color:#8c957f}
+.dj-guide-step h3{font:600 19px var(--head);color:#f1d99d;margin:5px 0}
+.dj-guide-step p{font:12px/1.55 var(--body);color:#dbd6c8;margin:0}
+.dj-guide-target-note{margin-top:9px;font:7px var(--mono);letter-spacing:.8px;color:#e3bd69}
+.dj-guide-actions{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:7px}
+.dj-guide-actions button{min-height:36px;border-radius:6px;padding:7px 8px;font:8px var(--mono);letter-spacing:.3px}
+.dj-guide-secondary{border:1px solid #514a39;background:#151814;color:#c7b993}
+.dj-guide-next{border:1px solid #dfbd75;background:linear-gradient(110deg,#a97d39,#e5c37b);color:#20180b;font-weight:700}
+.dj-guide-actions button:disabled{opacity:.35}
+.dj-guide-foot{font:8px/1.45 var(--mono);color:#888b7d;margin-top:10px}
+@media(max-width:760px){
+  .mixer-head{align-items:flex-start;gap:10px;flex-wrap:wrap}
+  .mixer-head-actions{width:100%;justify-content:space-between}
+  .dj-guide-launch{font-size:7px;padding:8px 9px}
+  .dj-guide-panel{right:9px;bottom:9px;width:calc(100vw - 18px);max-height:68vh;padding:12px}
+  .dj-guide-top h2{font-size:19px}
+  .dj-guide-toolbar{grid-template-columns:minmax(0,1fr) auto;gap:6px}
+  .dj-guide-toolbar label{grid-column:1/-1}
+  .dj-guide-toolbar select{width:100%}
+  .dj-guide-toggle{font-size:7px;padding:0 7px}
+  .dj-guide-step h3{font-size:17px}
+  .dj-guide-step p{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .dj-guide-highlight,.dj-guide-highlight-persistent,.auto-blend-button.is-running,.crossfader-zone.auto-blending .crossfader{animation:none!important}
+}
+
+
+/* Keep the DJ Coach useful while leaving the live performance visible. */
+@media(max-width:760px) {
+  .dj-guide-panel {
+    right:9px!important;
+    left:9px!important;
+    bottom:calc(76px + env(safe-area-inset-bottom))!important;
+    width:calc(100vw - 18px)!important;
+    max-height:min(54dvh,460px)!important;
+    padding:10px 11px!important;
+    background:linear-gradient(145deg,rgba(17,23,19,.97),rgba(8,12,11,.97))!important;
+    backdrop-filter:blur(9px);
+    border-radius:12px!important;
+  }
+  .dj-guide-top { position:sticky; top:-10px; z-index:5; padding:3px 0 8px; background:linear-gradient(180deg,#111713 80%,transparent); }
+  .dj-guide-top h2 { font-size:18px!important; }
+  .dj-guide-live-readout { margin:7px 0; padding:8px; }
+  .dj-guide-step { padding:8px 0 7px; }
+  .dj-guide-step h3 { font-size:16px!important; margin:4px 0; }
+  .dj-guide-step p { font-size:10px!important; line-height:1.42; }
+  .dj-guide-questions summary { padding:8px 9px; }
+  .dj-guide-question-content p { font-size:10px; line-height:1.4; }
+  .dj-guide-actions button { min-height:34px; }
+}
+
+
+/* Foundation 12 — live set co-pilot, action receipts and weekend device plan. */
+.dj-guide-follow-toggle {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:max-content;
+  max-width:100%;
+  margin:8px 0 7px;
+  padding:7px 9px;
+  border:1px solid #4b7d70;
+  border-radius:7px;
+  background:#10201c;
+  color:#baf3df;
+  font:800 8px var(--mono);
+  letter-spacing:.65px;
+}
+.dj-guide-follow-toggle input { accent-color:#5be0c5; }
+.dj-guide-action-receipt {
+  margin:8px 0;
+  padding:8px 9px;
+  border-left:3px solid #69d7c5;
+  border-radius:0 7px 7px 0;
+  background:#10201c;
+  color:#bfeee1;
+  font:800 8px/1.45 var(--mono);
+  letter-spacing:.35px;
+}
+.dj-guide-live-readout[data-state="transition"] {
+  border-color:#d9b56c;
+  box-shadow:0 0 16px #d6b36b28;
+}
+.dj-guide-live-readout[data-state="complete"] {
+  border-color:#62ce9a;
+  box-shadow:0 0 16px #62ce9a25;
+}
+.dj-guide-live-readout[data-state="attention"] {
+  border-color:#d88c67;
+}
+.pilot-weekend-plan {
+  margin:0 0 16px;
+  padding:14px;
+  border:1px solid #52796c;
+  border-radius:10px;
+  background:linear-gradient(135deg,#10231f,#121713);
+}
+.pilot-weekend-plan h3 {
+  margin:9px 0 4px;
+  color:#f2dfad;
+  font:600 17px var(--head);
+}
+.pilot-weekend-plan h3:first-of-type { margin-top:8px; }
+.pilot-weekend-plan p {
+  margin:0 0 7px;
+  color:#c1ccc2;
+  font:10px/1.5 var(--mono);
+}
+.pilot-weekend-plan .pilot-weekend-note {
+  margin-top:9px;
+  padding-top:9px;
+  border-top:1px solid #ffffff1a;
+  color:#e5c982;
+}
+@media(max-width:760px) {
+  .dj-guide-follow-toggle { min-height:34px; }
+  .dj-guide-action-receipt { font-size:7px; }
+  .pilot-weekend-plan { padding:11px; }
+  .pilot-weekend-plan p { font-size:9px; }
+}
+
+/* The Coach opens the same Starter Pack dropdown used by the main studio. */
+.dj-guide-starter-launch {
+  display:block;
+  width:100%;
+  min-height:39px;
+  margin:10px 0 2px;
+  padding:8px 12px;
+  border:1px solid #d9b96f;
+  border-radius:7px;
+  background:linear-gradient(110deg,#8d672f,#e0bd76);
+  color:#1d170c;
+  font:800 9px var(--mono);
+  letter-spacing:.75px;
+}
+.dj-guide-starter-launch:active { transform:translateY(1px); filter:brightness(1.08); }

@@ -1,0 +1,200 @@
+/* RO’Lyfe shared starter crate — tablet-first layout */
+.starter-crate {
+  margin: 18px 0;
+  padding: clamp(16px, 2.2vw, 26px);
+  border: 1px solid rgba(227,179,65,.42);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(28,25,18,.96), rgba(10,13,16,.98));
+  box-shadow: 0 16px 45px rgba(0,0,0,.22);
+}
+.starter-crate-head {
+  display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;
+}
+.starter-crate-kicker { color:#e3b341; font-size:.72rem; font-weight:800; letter-spacing:.16em; }
+.starter-crate h2 { margin:6px 0 4px; color:#fff; font-size:clamp(1.15rem,2.5vw,1.55rem); }
+.starter-crate-copy { margin:0; color:#c4c0b5; max-width:64ch; font-size:.92rem; line-height:1.5; }
+.starter-crate-count {
+  border:1px solid rgba(227,179,65,.42); border-radius:999px; padding:8px 12px;
+  color:#f4d27c; background:rgba(227,179,65,.08); font-size:.72rem; font-weight:800; letter-spacing:.06em;
+}
+.starter-crate-status {
+  margin:16px 0 12px; padding:10px 12px; border-radius:10px;
+  background:rgba(255,255,255,.045); color:#d7d4cb; font-size:.8rem; line-height:1.45;
+}
+.starter-crate-status[data-tone="success"] { color:#8ee0b0; }
+.starter-crate-status[data-tone="warning"] { color:#f0cb73; }
+.starter-crate-status[data-tone="error"] { color:#ff9b91; }
+.starter-crate-rows { display:grid; gap:9px; }
+.starter-track {
+  display:grid; grid-template-columns:42px minmax(0,1fr) auto; align-items:center; gap:12px;
+  padding:11px; border:1px solid rgba(255,255,255,.09); border-radius:12px;
+  background:rgba(255,255,255,.035); min-width:0;
+}
+.starter-track-art {
+  width:40px; height:40px; display:grid; place-items:center; border-radius:10px;
+  background:linear-gradient(145deg,#c6962f,#f1d17c); color:#17130a; font-size:1.35rem; font-weight:900;
+}
+.starter-track-info { display:grid; gap:3px; min-width:0; }
+.starter-track-info strong { color:#f5f1e6; font-size:.9rem; overflow-wrap:anywhere; }
+.starter-track-info span { color:#aca89e; font-size:.72rem; letter-spacing:.06em; }
+.starter-track-state { color:#e5bd61; font-size:.68rem; letter-spacing:.055em; }
+.starter-track-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px; }
+.starter-load-button {
+  min-height:38px; padding:8px 11px; border:1px solid rgba(227,179,65,.65); border-radius:8px;
+  background:rgba(227,179,65,.1); color:#f5d27c; font:800 .7rem/1 system-ui, sans-serif; letter-spacing:.045em;
+  touch-action:manipulation;
+}
+.starter-load-button:not(:disabled) { cursor:pointer; }
+.starter-load-button:not(:disabled):active { transform:translateY(1px); background:rgba(227,179,65,.2); }
+.starter-load-button:disabled { opacity:.38; cursor:not-allowed; }
+@media (max-width:700px) {
+  .starter-track { grid-template-columns:38px minmax(0,1fr); gap:9px; }
+  .starter-track-art { width:36px; height:36px; }
+  .starter-track-actions { grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; }
+  .starter-load-button { min-height:42px; }
+  .starter-crate-count { width:100%; text-align:center; }
+}
+
+
+/* RO’LYFE CRATE DOCK — shared and personal crates directly above the decks */
+.crate-dock-shell {
+  display:block;
+  margin:0 0 16px;
+  overflow:hidden;
+  border-color:rgba(210,169,91,.45);
+  background:linear-gradient(145deg,rgba(24,25,20,.98),rgba(11,14,13,.98));
+}
+.crate-dock-summary {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height:82px;
+  padding:16px 20px;
+  cursor:pointer;
+  list-style:none;
+  touch-action:manipulation;
+}
+.crate-dock-summary::-webkit-details-marker { display:none; }
+.crate-dock-summary::marker { content:""; }
+.crate-dock-summary-copy { min-width:0; }
+.crate-dock-summary h2 {
+  margin:4px 0 3px;
+  color:#f1e4c2;
+  font:600 clamp(18px,2.4vw,23px) var(--head);
+}
+.crate-dock-summary p {
+  margin:0;
+  color:#a6a99d;
+  font-size:11px;
+  line-height:1.5;
+}
+.crate-dock-open-label {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  flex:none;
+  min-height:40px;
+  padding:0 13px;
+  border:1px solid rgba(227,179,65,.58);
+  border-radius:8px;
+  background:rgba(227,179,65,.09);
+  color:#f1d18d;
+  font:800 9px var(--mono);
+  letter-spacing:.8px;
+}
+.crate-dock-open-label b {
+  display:inline-block;
+  font:700 20px/1 system-ui,sans-serif;
+  transition:transform .18s ease;
+}
+.crate-dock-shell[open] .crate-dock-open-label b { transform:rotate(180deg); }
+.crate-dock-content {
+  display:grid;
+  gap:12px;
+  padding:0 14px 14px;
+}
+.crate-dock-content > #starter-crate,
+.crate-dock-content > #library {
+  min-width:0;
+  margin:0;
+}
+.crate-dock-content > #library { padding:16px 17px; }
+.crate-dock-content > #starter-crate { padding:16px 17px; }
+@media (max-width:700px) {
+  .crate-dock-summary { min-height:76px; padding:13px 12px; gap:10px; }
+  .crate-dock-summary p { font-size:10px; }
+  .crate-dock-open-label { min-height:38px; padding:0 9px; font-size:8px; }
+  .crate-dock-content { padding:0 9px 10px; gap:9px; }
+  .crate-dock-content > #library,
+  .crate-dock-content > #starter-crate { padding:13px 11px; }
+}
+
+
+.starter-track-art.starter-track-drag-handle {
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  outline-offset:3px;
+}
+.starter-track-art.starter-track-drag-handle:focus-visible {
+  outline:2px solid #f3d58f;
+}
+.starter-drag-ghost {
+  position:fixed;
+  z-index:2000;
+  max-width:min(76vw,340px);
+  padding:10px 13px;
+  border:1px solid rgba(238,201,119,.85);
+  border-radius:10px;
+  background:rgba(18,20,17,.96);
+  color:#ffe3a2;
+  box-shadow:0 12px 32px rgba(0,0,0,.48);
+  font:800 11px/1.35 system-ui,sans-serif;
+  pointer-events:none;
+  overflow-wrap:anywhere;
+}
+
+/* One Starter Pack dropdown: instant practice loops and shared tracks live together. */
+.starter-practice-loops {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(250px,.9fr);
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  border:1px solid rgba(227,179,65,.25);
+  border-radius:10px;
+  background:linear-gradient(120deg,rgba(38,31,19,.75),rgba(13,18,16,.9));
+}
+.starter-practice-copy h3 {
+  margin:5px 0 4px;
+  color:#f2dfb6;
+  font:600 20px var(--head);
+}
+.starter-practice-copy p {
+  margin:0;
+  color:#bdb9ad;
+  font-size:11px;
+  line-height:1.55;
+}
+.starter-practice-actions {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.starter-practice-actions button {
+  min-height:42px;
+  white-space:normal;
+  font-size:8px;
+}
+.starter-practice-actions button:first-child {
+  grid-column:1 / -1;
+  min-height:46px;
+}
+@media(max-width:700px) {
+  .starter-practice-loops { grid-template-columns:1fr; gap:11px; padding:12px; }
+  .starter-practice-actions { grid-template-columns:1fr 1fr; }
+  .starter-practice-actions button { min-height:44px; padding:8px 7px; }
+  .starter-practice-actions button:first-child { grid-column:1 / -1; }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "RO’Lyfe Starter Crate",
+  "batch": 1,
+  "trackCount": 6,
+  "storage": "same-origin static audio assets",
+  "tracks": [
+    { "id": "project-1", "title": "R..O.L- PROJECT. 1.wav", "format": "WAV", "asset": "01-r-o-l-project-1.wav" },
+    { "id": "production-2", "title": "R.O.L- PRODUCTION 2.wav", "format": "WAV", "asset": "02-r-o-l-production-2.wav" },
+    { "id": "project-one-staff", "title": "R.O.L- PROJECT ONE STAFF.wav", "format": "WAV", "asset": "03-r-o-l-project-one-staff.wav" },
+    { "id": "rol-fest-1", "title": "ROL FEST 1...%.wav", "format": "WAV", "asset": "04-rol-fest-1.wav" },
+    { "id": "rol-swfolder-1", "title": "ROL-SWFOLDER 1.mp3", "format": "MP3", "asset": "05-rol-swfolder-1.mp3" },
+    { "id": "traffic-4", "title": "TRAFFIC 4.mp3", "format": "MP3", "asset": "06-traffic-4.mp3" }
+  ]
+}

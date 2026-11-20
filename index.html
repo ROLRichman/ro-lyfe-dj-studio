@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#090909" />
+  <meta name="description" content="RO’Lyfe DJ Studio — a direct-entry, touch-ready two-deck DJ workstation." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="./assets/rolyfe-mark.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+<link rel="stylesheet" href="./src/starter-crate.css" />
+  <link rel="stylesheet" href="./src/dj-guide.css" />
+  <link rel="stylesheet" href="./src/studio-controls.css" />
+  <link rel="stylesheet" href="./src/deck-performance.css" />
+  <title>RO’LYFE DJ STUDIO</title>
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="RO’Lyfe DJ Studio home">
+      <img class="brand-logo-image" src="./assets/rolyfe-mark.svg" alt="" />
+      <span class="brand-copy"><strong>RO’LYFE</strong><small>DJ PERFORMANCE STUDIO</small></span>
+    </a>
+    <div class="topbar-center"><span class="live-dot"></span><span>PERFORMANCE WORKSTATION</span><span class="top-sep">/</span><span class="build-tag">FOUNDATION 08 • PERFORMANCE EXPANSION</span></div>
+    <div class="topbar-actions">
+      <button class="icon-button" id="audioStatusButton" title="Audio status"><span class="status-led" id="audioStatusLed"></span><span id="audioStatusText">AUDIO STANDBY</span></button>
+      <button class="icon-button" id="focusModeButton" type="button" aria-pressed="false">FOCUS / FULL SCREEN</button>
+      <details class="studio-theme-menu" id="studioThemeMenu">
+        <summary aria-label="Choose studio theme"><span class="theme-dot"></span> THEMES ▾</summary>
+        <div class="theme-menu-popover">
+          <strong>CHOOSE YOUR STUDIO LOOK</strong>
+          <button type="button" data-theme-choice="golden-signature"><i class="theme-swatch swatch-gold"></i> Golden Signature</button>
+          <button type="button" data-theme-choice="midnight-blue"><i class="theme-swatch swatch-blue"></i> Midnight Blue</button>
+          <button type="button" data-theme-choice="ocean-teal"><i class="theme-swatch swatch-teal"></i> Ocean Teal</button>
+          <button type="button" data-theme-choice="violet-pulse"><i class="theme-swatch swatch-violet"></i> Violet Pulse</button>
+          <button type="button" data-theme-choice="crimson-club"><i class="theme-swatch swatch-crimson"></i> Crimson Club</button>
+          <button type="button" data-theme-choice="arctic-silver"><i class="theme-swatch swatch-silver"></i> Arctic Silver</button>
+          <small>Saved on this device</small>
+        </div>
+      </details>
+      <button class="gold-button compact pilot-launch" id="pilotKitButton" type="button">PILOT TEST</button>
+      <button class="gold-button compact" id="loadFirstButton">＋ LOAD TRACK</button>
+    </div>
+  </header>
+
+  <nav class="studio-nav" aria-label="Studio menu">
+    <div class="studio-nav-links">
+      <a href="#decks">LIVE DECKS</a><a href="#beat-scope">WAVEFORMS</a><a href="#mixer">MIXER</a><a href="#crate-dock">MUSIC &amp; SAMPLES</a><a href="#music-discovery">MUSIC SEARCH</a><a href="#radio-studio">RADIO INPUT</a><a href="#video-mixer">VIDEO MIX</a><a href="#controller-panel">CONTROLLERS</a>
+    </div>
+    <span class="nav-build">FOUNDATION 08 • PERFORMANCE EXPANSION</span>
+  </nav>
+
+  <section class="top-studio-actions" aria-label="Quick DJ controls">
+    <div class="top-live-audio-status"><span class="live-dot"></span><strong>LIVE AUDIO PATH</strong><small>MASTER MIX READY</small></div>
+    <div class="top-studio-action-buttons">
+      <button class="raised-action dj-guide-launch" id="topDjGuideButton" type="button">✦ SHOW ME HOW TO DJ</button>
+      <button class="raised-action top-quick-mix-button" id="topQuickMixButton" type="button" aria-expanded="false" aria-controls="mobileMixPanel">☷ QUICK MIX</button>
+      <details class="quick-go-menu" id="quickGoMenu">
+        <summary aria-label="Jump to a studio control">GO TO ▾</summary>
+        <div class="quick-go-popover" role="menu" aria-label="Quick navigation">
+          <button type="button" data-go-to="deckWorkspace">LIVE DECKS &amp; WHEELS</button>
+          <button type="button" data-go-to="crossfader-dock">CROSSFADER</button>
+          <button type="button" data-go-to="autoBlendButton">AUTO BLEND</button>
+          <button type="button" data-go-to="beat-scope">DUAL WAVEFORMS</button>
+          <button type="button" data-go-to="deckA">DECK A · TRANSPORT &amp; LOOPS</button>
+          <button type="button" data-go-to="deckB">DECK B · TRANSPORT &amp; LOOPS</button>
+          <button type="button" data-go-to="mixer">CENTRAL MIXER</button>
+          <button type="button" data-go-to="crate-dock">MUSIC &amp; SAMPLE CRATE</button>
+          <button type="button" data-go-to="fx">FX + SAMPLES</button>
+          <button type="button" data-go-to="coach">DJ COACH</button>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <main class="app-shell" id="studio">
+    <section class="welcome-row">
+      <div>
+        <div class="eyebrow">THE SOUND. THE SKILL. THE SET.</div>
+        <h1>Your sound. <span>Your set.</span></h1>
+        <p class="intro">Load your music, connect a supported radio stream, and mix across two live decks.</p>
+      </div>
+      <div class="session-card">
+        <div class="session-label">SESSION TIMER</div>
+        <div class="session-time" id="sessionTimer">00:00:00</div>
+        <div class="session-date" id="studioDateTime" aria-label="Live local calendar date and time">CALENDAR · LOCAL CLOCK</div>
+        <div class="session-foot"><span class="tiny-gold-dot"></span> SESSION ELAPSED · LOCAL DATE &amp; TIME</div>
+      </div>
+    </section>
+
+    <section class="transport-strip panel">
+      <div class="transport-left">
+        <div class="transport-title">MASTER TRANSPORT</div>
+        <div class="transport-sub">Load local tracks to begin mixing</div>
+      </div>
+      <div class="master-meter-wrap">
+        <div class="meter-label"><span>MASTER OUTPUT</span><span id="masterDb">— dB</span></div>
+        <div class="meter-track"><div class="meter-fill" id="masterMeter"></div></div>
+      </div>
+      <div class="master-control">
+        <label for="masterVolume">MASTER</label>
+        <input id="masterVolume" class="gold-range" type="range" min="0" max="1" step="0.01" value="0.82" />
+        <output id="masterVolumeValue">82%</output>
+      </div>
+      <div class="record-wrap">
+        <button class="record-button" id="recordButton"><span class="record-icon"></span><span id="recordLabel">REC BOTH DECKS</span></button>
+        <span class="record-note" id="recordNote">BOTH DECKS · LOCAL MASTER MIX</span>
+      </div>
+      <div class="auto-blend-wrap"><button class="raised-action auto-blend-button" id="autoBlendButton" type="button" aria-pressed="false">✦ AUTO BLEND</button><label for="autoBlendDuration">FADE</label><select id="autoBlendDuration" aria-label="Auto Blend fade duration"><option value="4">4 SEC</option><option value="8" selected>8 SEC</option><option value="12">12 SEC</option><option value="16">16 SEC</option></select><span class="auto-blend-status" id="autoBlendStatus" aria-live="polite">READY · START ONE DECK</span></div>
+    </section>
+
+    <details class="crate-dock-shell panel" id="crate-dock">
+      <summary class="crate-dock-summary">
+        <div class="crate-dock-summary-copy">
+          <div class="section-kicker">ONE PLACE · STARTER PACK &amp; MUSIC</div>
+          <h2>RO’Lyfe Starter Pack</h2>
+          <p>Open one pack to load a ready-to-play practice loop, a Batch 1 shared track, or music from your personal crate to Deck A or Deck B.</p>
+        </div>
+        <span class="crate-dock-open-label">OPEN STARTER PACK <b aria-hidden="true">⌄</b></span>
+      </summary>
+      <div class="crate-dock-content">
+        <section class="starter-crate panel" id="starter-crate" aria-labelledby="starterCrateTitle">
+                  <div class="starter-crate-head">
+                    <div>
+                      <div class="starter-crate-kicker">RO’LYFE · BATCH 1 SHARED LIBRARY</div>
+                      <h2 id="starterCrateTitle">Shared Tracks</h2>
+                      <p class="starter-crate-copy">Six original Batch 1 track slots. When a shared audio file is published, load it directly to either deck. Until then, choose your local copy with the matching button.</p>
+                    </div>
+                    <div class="starter-crate-count" id="starterCrateCount">CHECKING · 6 TRACKS</div>
+                  </div>
+                  <div class="starter-crate-status" id="starterCrateStatus" role="status" aria-live="polite">CHECKING SHARED BATCH 1 AUDIO…</div>
+                  <section class="starter-practice-loops" aria-labelledby="starterPracticeTitle">
+                    <div class="starter-practice-copy">
+                      <div class="starter-crate-kicker">READY NOW · BUILT INTO THE STUDIO</div>
+                      <h3 id="starterPracticeTitle">Quick Practice Loops</h3>
+                      <p>Two original practice tracks are generated on this device and load straight into the working decks. No download or extra music file is needed.</p>
+                    </div>
+                    <div class="starter-practice-actions">
+                      <button class="gold-button" id="loadDemoPair" type="button">LOAD BOTH · DECK A + B</button>
+                      <button class="raised-action" id="loadDemoA" type="button">LOAD LOOP A · 96 BPM</button>
+                      <button class="raised-action" id="loadDemoB" type="button">LOAD LOOP B · 100 BPM</button>
+                    </div>
+                  </section>
+                  <div class="starter-crate-rows" id="starterCrateRows"></div>
+                </section>
+
+      </div>
+    </details>
+
+
+    <section class="library panel crate-dock my-tracks-dock" id="library">
+      <div class="my-tracks-head"><div><div class="section-kicker">QUICK ACCESS · LOAD DIRECTLY TO A DECK</div><h2>My Tracks</h2><p>Your saved music is right here. Load any track straight into Deck A or B—no crate dropdown required.</p></div><div class="crate-actions"><button class="gold-button" id="addLibraryButton">＋ ADD TRACKS</button><button class="raised-action" id="restoreSessionButton" type="button" disabled>RESTORE LAST SET</button></div><input type="file" id="libraryFiles" class="file-input" multiple accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff"></div>
+      <div class="crate-storage-note" id="crateStorageStatus">LOCAL CRATE · SAVED ON THIS DEVICE</div>
+      <div class="library-table-wrap"><table class="library-table"><thead><tr><th>TRACK</th><th>FORMAT</th><th>SIZE</th><th>LOAD DIRECTLY</th></tr></thead><tbody id="libraryRows"><tr class="empty-row"><td colspan="4"><span class="empty-library-icon">♫</span><strong>Your crate is waiting.</strong><span>Add audio files to build this session's library.</span></td></tr></tbody></table></div>
+    </section>
+
+
+
+    <details class="decks-panel panel" id="deckWorkspace" open>
+      <summary class="decks-panel-summary">
+        <span class="decks-panel-copy">
+          <span class="section-kicker">LIVE DECKS · TWO-TURNTABLE WORKSPACE</span>
+          <strong>Decks &amp; Jog Wheels</strong>
+          <small>Both platters and waveforms stay open by default. Collapse this panel when you need more room.</small>
+        </span>
+        <span class="decks-panel-toggle">DECKS <b aria-hidden="true">⌄</b></span>
+      </summary>
+          <section class="decks-grid" id="decks" aria-label="DJ decks">
+      <article class="deck panel" data-deck="A" id="deckA">
+        <div class="deck-head">
+          <div class="deck-id"><span class="deck-letter">A</span><div><strong>DECK A</strong><small>LEFT CHANNEL</small></div></div>
+          <div class="track-state" id="stateA"><span class="state-dot"></span> EMPTY DECK</div>
+          <button class="wheel-spin-toggle" type="button" data-action="wheel-spin" data-deck="A" aria-pressed="true" title="Pause decorative wheel rotation">PAUSE SPIN</button>
+          <button class="deck-menu" data-action="eject" data-deck="A" title="Eject track">⏏</button>
+        </div>
+        <div class="track-meta">
+          <div class="track-art"><div class="art-disc"><div class="art-label">GS</div></div></div>
+          <div class="track-info"><div class="track-title" id="titleA">No track loaded</div><div class="track-filename" id="filenameA">Choose a music file from your device</div><div class="track-data"><span id="durationA">--:--</span><i></i><span id="formatA">LOCAL FILE</span><i></i><button class="bpm-chip" id="bpmA" data-action="bpm-edit" data-deck="A">120 BPM*</button><button class="bpm-tap" data-action="tap-bpm" data-deck="A">TAP</button></div></div>
+          <div class="deck-load-actions"><button class="load-button" data-action="load" data-deck="A"><span>＋</span> LOAD</button><button class="radio-source-button" data-action="radio" data-deck="A">RADIO</button></div>
+          <input class="file-input" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff" id="fileA" />
+        </div>
+        <div class="deck-performance">
+          <div class="platter-column">
+            <div class="platter-and-rail">
+              <div class="platter-wrap">
+                <div class="platter idle-spinning" id="platterA" data-deck="A" role="slider" tabindex="0" aria-label="Deck A jog wheel" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0">
+                  <div class="platter-grooves"></div><div class="platter-label"><span class="platter-star">✦</span><strong>GOLDEN</strong><small>STEAL • A</small></div><div class="platter-arm"></div>
+                </div>
+                <div class="platter-ring"></div>
+              </div>
+              <aside class="wheel-side-controls" aria-label="Deck A trim and level controls">
+                <label class="wheel-slider-control">
+                  <span>TRIM</span>
+                  <input id="trimA" type="range" min="-12" max="12" step="0.5" value="0" aria-label="Deck A input trim in decibels" />
+                  <output id="trimValueA">0 dB</output>
+                </label>
+                <label class="wheel-slider-control">
+                  <span>BASS</span>
+                  <input id="bassA" type="range" min="-24" max="6" step="0.5" value="0" aria-label="Deck A bass EQ" />
+                  <output id="bassValueA">0 dB</output>
+                </label>
+                <label class="wheel-slider-control">
+                  <span>LEVEL</span>
+                  <input id="deckVolumeA" type="range" min="0" max="1.25" step="0.01" value="1" aria-label="Deck A channel level" />
+                  <output id="deckVolumeValueA">100%</output>
+                </label>
+              </aside>
+            </div>
+            <div class="jog-hint">DRAG FROM CRATE · ROTATE TO JOG</div>
+          </div>
+          <div class="deck-controls">
+            <div class="tempo-row"><div><label for="tempoA">TEMPO</label><strong id="tempoValueA">+0.0%</strong></div><input type="range" id="tempoA" min="-16" max="16" step="0.1" value="0" /><button class="reset-button" data-action="tempo-reset" data-deck="A">RESET</button></div>
+            <div class="transport-buttons"><button class="transport-main" id="playA" data-action="play" data-deck="A"><span class="play-glyph" id="playGlyphA">▶</span><span id="playTextA">PLAY</span></button><button class="transport-secondary" id="cueA" data-action="cue" data-deck="A">CUE</button><button class="transport-secondary" id="setCueA" data-action="set-cue" data-deck="A">SET CUE</button><button class="transport-secondary" id="stopA" data-action="stop" data-deck="A">■ STOP</button><button class="transport-secondary" id="skipA" data-action="skip" data-deck="A">SKIP +15</button><button class="transport-secondary" id="syncA" data-action="sync" data-deck="A">SYNC</button><button class="transport-secondary nudge-button" data-action="nudge-down" data-deck="A">− NUDGE</button><button class="transport-secondary nudge-button" data-action="nudge-up" data-deck="A">NUDGE +</button></div>
+            <div class="loop-row"><span>BEAT LOOP</span><button data-action="loop" data-deck="A" data-beats="2">2</button><button data-action="loop" data-deck="A" data-beats="4">4</button><button data-action="loop" data-deck="A" data-beats="8">8</button><button data-action="loop" data-deck="A" data-beats="16">16</button><button data-action="loop-off" data-deck="A">EXIT</button><button class="scratch-toggle" data-action="scratch-toggle" data-deck="A">SCRATCH OFF</button></div>
+            <div class="hot-cues"><div class="control-caption">HOT CUES <span>Tap once to set • tap again to jump</span></div><div class="cue-pads"><button id="hotcueA1" data-action="hotcue" data-deck="A" data-pad="0">1</button><button id="hotcueA2" data-action="hotcue" data-deck="A" data-pad="1">2</button><button id="hotcueA3" data-action="hotcue" data-deck="A" data-pad="2">3</button><button id="hotcueA4" data-action="hotcue" data-deck="A" data-pad="3">4</button><button id="hotcueA5" data-action="hotcue" data-deck="A" data-pad="4">5</button><button id="hotcueA6" data-action="hotcue" data-deck="A" data-pad="5">6</button><button id="hotcueA7" data-action="hotcue" data-deck="A" data-pad="6">7</button><button id="hotcueA8" data-action="hotcue" data-deck="A" data-pad="7">8</button></div></div>
+            
+          </div>
+        </div>
+        <div class="deck-bottom"><span class="bottom-hint">* BPM is a manual starting value in this build.</span><span class="deck-load-status" id="loadStatusA">READY TO LOAD</span></div>
+        <audio id="audioA" preload="metadata"></audio>
+      </article>
+
+    <section class="stacked-scope panel" id="beat-scope" aria-label="Stacked dual deck waveform monitor">
+      <div class="scope-head">
+        <div class="scope-title">
+          <div class="section-kicker">LIVE BEAT DISPLAY · SERATO-STYLE LAYOUT</div>
+          <h2>Dual-deck waveforms</h2>
+          <p>Both tracks stay visible together. The playhead stays centered while each deck waveform scrolls independently. Touch or drag either waveform to jump to that moment.</p>
+        </div>
+        <div class="scope-legend" aria-label="Waveform color legend">
+          <span class="scope-key scope-key-a"><i></i> A · GOLD</span>
+          <span class="scope-key scope-key-b"><i></i> B · CYAN</span>
+          <span class="scope-key scope-key-cue"><i></i> CUE POINTS</span>
+        </div>
+      </div>
+      <div class="scope-lanes">
+        <div class="scope-lane scope-lane-a" data-scope-deck="A">
+          <div class="scope-lane-head"><span><b class="scope-letter scope-letter-a">A</b> DECK A</span><span class="scope-track-state" id="scopeStatusA">WAITING FOR TRACK</span></div>
+          <div class="scope-canvas-wrap">
+            <canvas class="waveform scope-waveform" id="waveA" width="1600" height="116" aria-label="Deck A scrolling waveform"></canvas>
+            <input type="range" class="seek-range scope-seek" id="seekA" min="0" max="1000" value="0" aria-label="Seek Deck A" />
+          </div>
+          <div class="scope-time"><b id="elapsedA">00:00</b><span>/</span><span id="remainingA">--:--</span><span class="scope-time-note">ELAPSED / REMAINING</span></div>
+        </div>
+        <div class="scope-lane scope-lane-b" data-scope-deck="B">
+          <div class="scope-lane-head"><span><b class="scope-letter scope-letter-b">B</b> DECK B</span><span class="scope-track-state" id="scopeStatusB">WAITING FOR TRACK</span></div>
+          <div class="scope-canvas-wrap">
+            <canvas class="waveform scope-waveform" id="waveB" width="1600" height="116" aria-label="Deck B scrolling waveform"></canvas>
+            <input type="range" class="seek-range scope-seek" id="seekB" min="0" max="1000" value="0" aria-label="Seek Deck B" />
+          </div>
+          <div class="scope-time"><b id="elapsedB">00:00</b><span>/</span><span id="remainingB">--:--</span><span class="scope-time-note">ELAPSED / REMAINING</span></div>
+        </div>
+      </div>
+      <div class="scope-foot"><span>FIXED CENTER PLAYHEAD</span><span>TOUCH / DRAG TO SEEK · BPM GRID · CUES 1–8</span></div>
+    </section>
+
+      <article class="deck panel" data-deck="B" id="deckB">
+        <div class="deck-head">
+          <div class="deck-id"><span class="deck-letter deck-letter-b">B</span><div><strong>DECK B</strong><small>RIGHT CHANNEL</small></div></div>
+          <div class="track-state" id="stateB"><span class="state-dot"></span> EMPTY DECK</div>
+          <button class="wheel-spin-toggle" type="button" data-action="wheel-spin" data-deck="B" aria-pressed="true" title="Pause decorative wheel rotation">PAUSE SPIN</button>
+          <button class="deck-menu" data-action="eject" data-deck="B" title="Eject track">⏏</button>
+        </div>
+        <div class="track-meta">
+          <div class="track-art"><div class="art-disc"><div class="art-label">GS</div></div></div>
+          <div class="track-info"><div class="track-title" id="titleB">No track loaded</div><div class="track-filename" id="filenameB">Choose a music file from your device</div><div class="track-data"><span id="durationB">--:--</span><i></i><span id="formatB">LOCAL FILE</span><i></i><button class="bpm-chip" id="bpmB" data-action="bpm-edit" data-deck="B">120 BPM*</button><button class="bpm-tap" data-action="tap-bpm" data-deck="B">TAP</button></div></div>
+          <div class="deck-load-actions"><button class="load-button" data-action="load" data-deck="B"><span>＋</span> LOAD</button><button class="radio-source-button" data-action="radio" data-deck="B">RADIO</button></div>
+          <input class="file-input" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff" id="fileB" />
+        </div>
+        <div class="deck-performance">
+          <div class="platter-column">
+            <div class="platter-and-rail">
+              <div class="platter-wrap">
+                <div class="platter idle-spinning" id="platterB" data-deck="B" role="slider" tabindex="0" aria-label="Deck B jog wheel" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0">
+                  <div class="platter-grooves"></div><div class="platter-label"><span class="platter-star">✦</span><strong>GOLDEN</strong><small>STEAL • B</small></div><div class="platter-arm"></div>
+                </div>
+                <div class="platter-ring"></div>
+              </div>
+              <aside class="wheel-side-controls" aria-label="Deck B trim and level controls">
+                <label class="wheel-slider-control">
+                  <span>TRIM</span>
+                  <input id="trimB" type="range" min="-12" max="12" step="0.5" value="0" aria-label="Deck B input trim in decibels" />
+                  <output id="trimValueB">0 dB</output>
+                </label>
+                <label class="wheel-slider-control">
+                  <span>BASS</span>
+                  <input id="bassB" type="range" min="-24" max="6" step="0.5" value="0" aria-label="Deck B bass EQ" />
+                  <output id="bassValueB">0 dB</output>
+                </label>
+                <label class="wheel-slider-control">
+                  <span>LEVEL</span>
+                  <input id="deckVolumeB" type="range" min="0" max="1.25" step="0.01" value="1" aria-label="Deck B channel level" />
+                  <output id="deckVolumeValueB">100%</output>
+                </label>
+              </aside>
+            </div>
+            <div class="jog-hint">DRAG FROM CRATE · ROTATE TO JOG</div>
+          </div>
+          <div class="deck-controls">
+            <div class="tempo-row"><div><label for="tempoB">TEMPO</label><strong id="tempoValueB">+0.0%</strong></div><input type="range" id="tempoB" min="-16" max="16" step="0.1" value="0" /><button class="reset-button" data-action="tempo-reset" data-deck="B">RESET</button></div>
+            <div class="transport-buttons"><button class="transport-main" id="playB" data-action="play" data-deck="B"><span class="play-glyph" id="playGlyphB">▶</span><span id="playTextB">PLAY</span></button><button class="transport-secondary" id="cueB" data-action="cue" data-deck="B">CUE</button><button class="transport-secondary" id="setCueB" data-action="set-cue" data-deck="B">SET CUE</button><button class="transport-secondary" id="stopB" data-action="stop" data-deck="B">■ STOP</button><button class="transport-secondary" id="skipB" data-action="skip" data-deck="B">SKIP +15</button><button class="transport-secondary" id="syncB" data-action="sync" data-deck="B">SYNC</button><button class="transport-secondary nudge-button" data-action="nudge-down" data-deck="B">− NUDGE</button><button class="transport-secondary nudge-button" data-action="nudge-up" data-deck="B">NUDGE +</button></div>
+            <div class="loop-row"><span>BEAT LOOP</span><button data-action="loop" data-deck="B" data-beats="2">2</button><button data-action="loop" data-deck="B" data-beats="4">4</button><button data-action="loop" data-deck="B" data-beats="8">8</button><button data-action="loop" data-deck="B" data-beats="16">16</button><button data-action="loop-off" data-deck="B">EXIT</button><button class="scratch-toggle" data-action="scratch-toggle" data-deck="B">SCRATCH OFF</button></div>
+            <div class="hot-cues"><div class="control-caption">HOT CUES <span>Tap once to set • tap again to jump</span></div><div class="cue-pads"><button id="hotcueB1" data-action="hotcue" data-deck="B" data-pad="0">1</button><button id="hotcueB2" data-action="hotcue" data-deck="B" data-pad="1">2</button><button id="hotcueB3" data-action="hotcue" data-deck="B" data-pad="2">3</button><button id="hotcueB4" data-action="hotcue" data-deck="B" data-pad="3">4</button><button id="hotcueB5" data-action="hotcue" data-deck="B" data-pad="4">5</button><button id="hotcueB6" data-action="hotcue" data-deck="B" data-pad="5">6</button><button id="hotcueB7" data-action="hotcue" data-deck="B" data-pad="6">7</button><button id="hotcueB8" data-action="hotcue" data-deck="B" data-pad="7">8</button></div></div>
+            
+          </div>
+        </div>
+        <div class="deck-bottom"><span class="bottom-hint">* BPM is a manual starting value in this build.</span><span class="deck-load-status" id="loadStatusB">READY TO LOAD</span></div>
+        <audio id="audioB" preload="metadata"></audio>
+      </article>
+    </section>
+    </details>
+
+
+
+    <section class="crossfader-dock panel" id="crossfader-dock" aria-label="Live crossfader controls below both decks">
+      <div class="crossfader-dock-head">
+        <div class="section-kicker">LIVE MIX CONTROL</div>
+        <p>Blend or cut between Deck A and Deck B after setting your wheels.</p>
+      </div>
+              <div class="crossfader-zone">
+          <div class="crossfader-title">CROSSFADER</div>
+          <div class="crossfader-ends"><span>A</span><span>CENTER</span><span>B</span></div>
+          <input id="crossfader" class="crossfader" type="range" min="0" max="100" value="50" aria-label="Crossfader" />
+          <div class="crossfader-scale"><span>← CUT / BLEND →</span></div>
+          <div class="echo-control"><label for="echoAmount">ECHO SEND</label><input id="echoAmount" type="range" min="0" max="0.55" value="0" step="0.01"><output id="echoValue">OFF</output></div>
+          <div class="crossfader-actions"><button id="centerCrossfader">CENTER MIX</button><button id="muteMaster">MASTER MUTE</button></div>
+        </div>
+    </section>
+
+    <section class="mixer panel" id="mixer">
+      <div class="mixer-head">
+        <div><div class="section-kicker">THE MIX</div><h2>Central mixer</h2></div>
+        <div class="mixer-head-actions">
+          <div class="mixer-badge"><span class="live-dot"></span> LIVE AUDIO PATH</div>
+          <button class="raised-action dj-guide-launch" id="djGuideButton" type="button">✦ SHOW ME HOW TO DJ</button>
+          <div class="more-channel-wrap">
+            <button class="raised-action more-channels-button" type="button" id="moreChannelsButton" aria-expanded="false" aria-controls="moreChannelsPanel">MORE CHANNELS ▾</button>
+            <div class="more-channels-panel" id="moreChannelsPanel" hidden>
+              <strong>FOUR-CHANNEL EXPANSION</strong>
+              <p>Decks C and D are planned. This menu is visible for the next expansion; extra audio channels are not wired into the current two-deck engine yet.</p>
+              <span class="channel-coming-soon">C · COMING NEXT</span><span class="channel-coming-soon">D · COMING NEXT</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mixer-grid">
+        <div class="channel-strip">
+          <div class="channel-label"><span class="channel-dot dot-a"></span> CHANNEL A</div>
+          <div class="eq-stack knob-grid"><label class="knob-control"><span>HIGH</span><button type="button" class="rotary-knob" id="knob-high-A" data-knob="high" data-deck="A" data-value="0" role="slider" tabindex="0" aria-label="Deck A high EQ" aria-valuemin="-24" aria-valuemax="6" aria-valuenow="0"><i class="knob-pointer"></i></button><b id="highA">0 dB</b></label><label class="knob-control"><span>MID</span><button type="button" class="rotary-knob" id="knob-mid-A" data-knob="mid" data-deck="A" data-value="0" role="slider" tabindex="0" aria-label="Deck A mid EQ" aria-valuemin="-24" aria-valuemax="6" aria-valuenow="0"><i class="knob-pointer"></i></button><b id="midA">0 dB</b></label><label class="knob-control"><span>LOW</span><button type="button" class="rotary-knob" id="knob-low-A" data-knob="low" data-deck="A" data-value="0" role="slider" tabindex="0" aria-label="Deck A low EQ" aria-valuemin="-24" aria-valuemax="6" aria-valuenow="0"><i class="knob-pointer"></i></button><b id="lowA">0 dB</b></label></div>
+          <div class="filter-control"><label for="filterA">FILTER</label><input id="filterA" type="range" min="0" max="100" value="50"><span id="filterValueA">NEUTRAL</span></div>
+          <div class="channel-volume"><label for="channelA">CHANNEL LEVEL</label><input id="channelA" type="range" min="0" max="1.25" value="1" step="0.01"><output id="channelValueA">100%</output></div>
+        </div>
+        <div class="channel-strip">
+          <div class="channel-label"><span class="channel-dot dot-b"></span> CHANNEL B</div>
+          <div class="eq-stack knob-grid"><label class="knob-control"><span>HIGH</span><button type="button" class="rotary-knob" id="knob-high-B" data-knob="high" data-deck="B" data-value="0" role="slider" tabindex="0" aria-label="Deck B high EQ" aria-valuemin="-24" aria-valuemax="6" aria-valuenow="0"><i class="knob-pointer"></i></button><b id="highB">0 dB</b></label><label class="knob-control"><span>MID</span><button type="button" class="rotary-knob" id="knob-mid-B" data-knob="mid" data-deck="B" data-value="0" role="slider" tabindex="0" aria-label="Deck B mid EQ" aria-valuemin="-24" aria-valuemax="6" aria-valuenow="0"><i class="knob-pointer"></i></button><b id="midB">0 dB</b></label><label class="knob-control"><span>LOW</span><button type="button" class="rotary-knob" id="knob-low-B" data-knob="low" data-deck="B" data-value="0" role="slider" tabindex="0" aria-label="Deck B low EQ" aria-valuemin="-24" aria-valuemax="6" aria-valuenow="0"><i class="knob-pointer"></i></button><b id="lowB">0 dB</b></label></div>
+          <div class="filter-control"><label for="filterB">FILTER</label><input id="filterB" type="range" min="0" max="100" value="50"><span id="filterValueB">NEUTRAL</span></div>
+          <div class="channel-volume"><label for="channelB">CHANNEL LEVEL</label><input id="channelB" type="range" min="0" max="1.25" value="1" step="0.01"><output id="channelValueB">100%</output></div>
+        </div>
+      </div>
+      <div class="mixer-foot"><span>LOW / MID / HIGH ROTARY EQ • FILTER SWEEP • ECHO SEND</span><span>MASTER OUTPUT ROUTED THROUGH WEB AUDIO</span></div>
+      <div class="fx-performance"><div><div class="section-kicker">PERFORMANCE PADS</div><strong>One-touch drops & accents</strong></div><div class="fx-pad-row"><button class="fx-pad" data-fx-pad="horn">AIR HORN</button><button class="fx-pad" data-fx-pad="siren">SIREN</button><button class="fx-pad" data-fx-pad="riser">RISER</button><button class="fx-pad" data-fx-pad="drop">BASS DROP</button><button class="fx-pad" data-fx-pad="laser">LASER</button><button class="fx-pad" data-fx-pad="scratch">SCRATCH STAB</button><button class="fx-pad" data-fx-pad="vinyl">VINYL STOP</button><button class="fx-pad" data-fx-pad="rewind">REWIND</button></div></div>
+    </section>
+
+    <section class="music-discovery panel" id="music-discovery">
+      <div class="library-head"><div><div class="section-kicker">DISCOVER · DOWNLOAD · ADD TO CRATE</div><h2>Music discovery</h2><p>Discovery is a catalog of tracks and samples, not a radio station. Search Free To Use selections, preview/load a track, or save a downloadable MP3 into your local crate when the source permits it.</p></div><div class="discovery-actions"><button class="gold-button" id="quickPicksButton">LOAD QUICK PICKS</button></div></div>
+      <form class="music-search-form" id="musicSearchForm"><input id="musicSearchInput" type="search" placeholder="Search instrumentals, artists, moods or genres…" autocomplete="off" /><button class="gold-button" type="submit">SEARCH MUSIC</button></form>
+      <div class="music-result-grid" id="musicResults"><div class="music-empty">Tap LOAD QUICK PICKS to browse the Free To Use catalog.</div></div>
+      <div class="discovery-source-heading"><div class="section-kicker">DOWNLOADABLE MUSIC &amp; SAMPLE LIBRARIES</div><p>Open a source, download audio you are licensed to use, then choose ADD TRACKS in the crate. Keep each source's license/credit details with the file.</p></div>
+      <div class="discovery-source-grid">
+        <article class="discovery-source-card"><span class="source-kind">INSTRUMENTALS · MUSIC</span><h3>Pixabay Music</h3><p>Downloadable music and instrumentals. The Pixabay license allows many uses, but does not allow redistributing a track as a standalone file.</p><a href="https://pixabay.com/music/" target="_blank" rel="noopener noreferrer">BROWSE MUSIC DOWNLOADS ↗</a><a class="source-terms" href="https://pixabay.com/service/license-summary/" target="_blank" rel="noopener noreferrer">Read Pixabay license</a></article>
+        <article class="discovery-source-card"><span class="source-kind">INDEPENDENT MUSIC</span><h3>Free Music Archive</h3><p>Download original tracks. Rights vary by song, so check the individual track license before remixing, recording, broadcasting or using it commercially.</p><a href="https://freemusicarchive.org/" target="_blank" rel="noopener noreferrer">BROWSE TRACKS ↗</a><a class="source-terms" href="https://freemusicarchive.org/License_Guide" target="_blank" rel="noopener noreferrer">Read license guide</a></article>
+        <article class="discovery-source-card"><span class="source-kind">SAMPLES · ONE-SHOTS · FX</span><h3>Freesound</h3><p>Find drum hits, textures, risers and sound effects. Each upload has its own CC0, Attribution or NonCommercial terms; download requires an account.</p><a href="https://freesound.org/" target="_blank" rel="noopener noreferrer">BROWSE SOUND SAMPLES ↗</a><a class="source-terms" href="https://freesound.org/help/faq/" target="_blank" rel="noopener noreferrer">Read sample license FAQ</a></article>
+        <article class="discovery-source-card"><span class="source-kind">SOUND EFFECTS · NOT SONGS</span><h3>Mixkit Sound Effects</h3><p>Useful effects and accents for performance pads. Review Mixkit's item-specific free license; this collection is for effects, not a DJ music catalog.</p><a href="https://mixkit.co/free-sound-effects/" target="_blank" rel="noopener noreferrer">BROWSE SOUND EFFECTS ↗</a><a class="source-terms" href="https://mixkit.co/license/" target="_blank" rel="noopener noreferrer">Read Mixkit license</a></article>
+      </div>
+      <div class="music-source-shortcuts"><span>LISTENING SERVICES · OPEN SEPARATELY</span><a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">OPEN YOUTUBE</a><a href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">OPEN YOUTUBE MUSIC</a></div>
+      <div class="license-note">Radio ACID / Just Listening stays in Radio &amp; Live Stream. We do not record, rip or turn a station feed into samples. Use an official download from a licensed source, then add that file to the crate. Free To Use catalog items loaded remotely are not automatically saved unless you use SAVE TO CRATE.</div>
+    </section>
+
+    <section class="radio-studio panel" id="radio-studio">
+      <div class="section-kicker">NETWORK AUDIO INPUT</div><h2>Radio & live stream deck</h2>
+      <p class="studio-help">Listen to a chill station or load a direct authorized HTTPS radio / Icecast / Shoutcast audio stream into either deck. Live streams may not support seeking, waveform analysis, beat grids, or scratching.</p>
+      <div class="station-feature-card"><div class="station-feature-copy"><div class="section-kicker">JUST LISTENING · CHILL</div><h3>Radio ACID — Everything Chill</h3><p>Lounge, dance, chillhop, funk and laid-back grooves.</p><a href="https://www.radioguide.fm/internet-radio-usa-california/radio-acid-everything-chill" target="_blank" rel="noopener noreferrer">OPEN STATION PAGE</a></div><iframe src="https://www.radioguide.fm/embed/usa-california/radio-acid-everything-chill?theme=dark" title="Radio ACID — Everything Chill live player" loading="lazy" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+      <form class="radio-load-form" id="radioLoadForm">
+        <label>STATION NAME<input id="radioStationName" type="text" placeholder="My Radio Station" value="Radio ACID — Everything Chill" /></label>
+        <label class="radio-url-field">STREAM URL<input id="radioStreamUrl" type="url" placeholder="https://your-station.example/live.mp3" value="https://stream.radioacid.com/stream" required /></label>
+        <button class="gold-button" type="submit">LOAD STREAM</button>
+      </form>
+      <div class="radio-deck-actions"><button class="raised-action" id="radioLoadA">LOAD TO DECK A</button><button class="raised-action" id="radioLoadB">LOAD TO DECK B</button><span id="radioStatus">CHILL STATION PRESET READY · CHOOSE DECK A OR B</span></div>
+      <p class="license-note">The embedded chill player is for listening. To send a station through Deck A or Deck B, paste its direct HTTPS audio stream URL above. The station host must permit browser audio access; a web-page or embedded-player link is not a direct audio stream.</p>
+    </section>
+
+    <section class="video-mixer panel" id="video-mixer">
+      <div class="video-mixer-head">
+        <div><div class="section-kicker">LIVE VISUAL PERFORMANCE</div><h2>Video mixer</h2><p>Think of this as two video players feeding one screen: Video A and B blend in the Program Output using the main crossfader. The matching audio follows Deck A/B into the Central Mixer.</p></div>
+        <div class="video-status" id="videoStatus">NO VIDEO DECKS LOADED</div>
+      </div>
+      <div class="video-deck-grid">
+        <article class="video-deck-card">
+          <div class="video-deck-title"><span class="deck-letter">A</span><strong>VIDEO DECK A</strong><span id="videoNameA">NO VIDEO</span></div>
+          <div class="video-preview-wrap"><video id="videoA" muted playsinline preload="metadata"></video><div class="video-empty" id="videoEmptyA">LOAD A VIDEO FILE</div></div>
+          <div class="video-deck-tools"><button class="raised-action" id="videoLoadA">LOAD VIDEO A</button><input class="file-input" id="videoFileA" type="file" accept="video/mp4,video/webm,video/quicktime,video/*"><button class="raised-action" id="videoPlayA">PLAY / PAUSE</button><label>PICTURE OPACITY <input id="videoOpacityA" type="range" min="0" max="1" step="0.01" value="1"></label></div>
+        </article>
+        <article class="video-deck-card">
+          <div class="video-deck-title"><span class="deck-letter deck-letter-b">B</span><strong>VIDEO DECK B</strong><span id="videoNameB">NO VIDEO</span></div>
+          <div class="video-preview-wrap"><video id="videoB" muted playsinline preload="metadata"></video><div class="video-empty" id="videoEmptyB">LOAD A VIDEO FILE</div></div>
+          <div class="video-deck-tools"><button class="raised-action" id="videoLoadB">LOAD VIDEO B</button><input class="file-input" id="videoFileB" type="file" accept="video/mp4,video/webm,video/quicktime,video/*"><button class="raised-action" id="videoPlayB">PLAY / PAUSE</button><label>PICTURE OPACITY <input id="videoOpacityB" type="range" min="0" max="1" step="0.01" value="1"></label></div>
+        </article>
+      </div>
+      <div class="program-monitor-wrap" id="programMonitorWrap">
+        <div class="program-label"><span>PROGRAM OUTPUT</span><span>VIDEO FOLLOWS THE MAIN CROSSFADER</span></div>
+        <canvas id="videoProgram" width="960" height="540" aria-label="Blended video program monitor"></canvas>
+        <div class="program-placeholder" id="programPlaceholder">LOAD VIDEO A OR B TO BEGIN THE VISUAL MIX</div>
+      </div>
+      <div class="video-routing-note"><strong>Audio volume is controlled in CENTRAL MIXER.</strong> The PICTURE OPACITY slider only makes that video layer more or less transparent; it is not a volume control. RECORD VIDEO MIX captures the blended picture plus the master audio mix from both active audio decks.</div>
+      <div class="video-program-controls">
+        <button class="raised-action" id="videoCutA">CUT A</button><button class="raised-action" id="videoCutB">CUT B</button><button class="gold-button" id="videoAutoFade">AUTO FADE</button>
+        <label>FADE <select id="videoFadeDuration"><option value="2">2 SEC</option><option value="4">4 SEC</option><option value="8" selected>8 SEC</option><option value="12">12 SEC</option></select></label>
+        <button class="raised-action" id="videoFullscreen">FULLSCREEN</button><button class="record-button" id="videoRecordButton"><span class="record-icon"></span><span id="videoRecordLabel">REC VIDEO + DECK MIX</span></button>
+      </div>
+      <p class="license-note">Video stays on the DJ's device. Video file audio is routed through its matching audio deck when the browser can decode it. The video layer is muted to prevent doubled sound. Recording exports a WebM containing the program picture and the master audio mix. Music and video rights remain the user's responsibility.</p>
+    </section>
+
+    <section class="controller-panel panel" id="controller-panel">
+      <div class="section-kicker">HARDWARE &amp; REMOTE SETUP</div><h2>Universal controller connection</h2>
+      <p class="studio-help">A USB or supported Bluetooth MIDI controller can control the laptop DJ desk through the browser's MIDI connection. This is different from opening the studio on a second phone as a wireless remote.</p>
+      <div class="midi-controls"><label>MAP THIS CONTROL<select id="midiTarget"><option value="#crossfader">Crossfader</option><option value="#masterVolume">Master volume</option><option value="#channelA">Channel A level</option><option value="#channelB">Channel B level</option><option value="#filterA">Deck A filter</option><option value="#filterB">Deck B filter</option><option value="#knob-high-A">Deck A High EQ</option><option value="#knob-mid-A">Deck A Mid EQ</option><option value="#knob-low-A">Deck A Low EQ</option><option value="#knob-high-B">Deck B High EQ</option><option value="#knob-mid-B">Deck B Mid EQ</option><option value="#knob-low-B">Deck B Low EQ</option><option value="#playA">Deck A Play / Pause</option><option value="#playB">Deck B Play / Pause</option><option value="#cueA">Deck A Cue</option><option value="#cueB">Deck B Cue</option></select></label><button class="gold-button" id="midiConnect">CONNECT MIDI</button><button class="raised-action" id="midiLearn">LEARN CONTROL</button><span id="midiStatus">NO CONTROLLER CONNECTED</span></div>
+      <div class="midi-device-list" id="midiDeviceList">No MIDI devices listed yet. Connect a controller and choose CONNECT MIDI.</div>
+      <div class="controller-guide-grid">
+        <article class="controller-guide-card"><span class="source-kind">LAPTOP · PHYSICAL CONTROLLER</span><h3>Connect a MIDI controller</h3><ol><li>Plug the controller into the laptop with its USB cable, or pair a supported Bluetooth MIDI device.</li><li>Open RO’Lyfe in a supported desktop browser over HTTPS and press CONNECT MIDI.</li><li>Allow the browser's MIDI permission. Select a software control, press LEARN CONTROL, then move the matching knob, fader or pad.</li><li>Repeat for each control. MIDI mappings are saved in this browser on this laptop.</li></ol></article>
+        <article class="controller-guide-card remote-guide-card"><span class="source-kind">PHONE / TABLET · WIRELESS REMOTE</span><h3>Use a second device as a remote</h3><p><strong>Not paired in this build yet.</strong> A second device needs a secure one-time pairing code/QR, a shared session, and a real-time network bridge back to the laptop. Simply opening the same website on two devices will not link their controls.</p><span class="remote-status">NETWORK REMOTE · PLANNED, NOT ACTIVE</span></article>
+      </div>
+      <div class="touch-ai-note"><strong>Touch feedback:</strong> buttons, pads, knobs and sliders light up when touched; active switches remain visibly selected. <strong>AI DJ Coach:</strong> planned as a secure server-side assistant, not an enabled browser feature in this build.</div>
+      <div class="license-note">Web MIDI is browser-dependent and requires a secure context. Desktop Chrome/Edge are the safest first pilot targets; phone/tablet USB and Bluetooth MIDI availability varies by device and browser. The phone-as-remote feature needs a separate paired-session service.</div>
+    </section>
+
+    <section class="roadmap panel">
+      <div class="roadmap-heading"><div><div class="section-kicker">BUILT IN MILESTONES</div><h2>Performance roadmap</h2></div><span class="roadmap-note">ONE STEP AT A TIME · TESTED IN STAGES</span></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item active"><span class="roadmap-number">01</span><div><strong>Audio foundation</strong><small>Local playback • two decks • live mix • EQ • meters</small></div><span class="roadmap-status">ACTIVE BUILD</span></div>
+        <div class="roadmap-item"><span class="roadmap-number">02</span><div><strong>Turntable feel</strong><small>Smoother jog response • audio-rate scratching • reverse playback • beat sync</small></div><span class="roadmap-status queued">NEXT</span></div>
+        <div class="roadmap-item"><span class="roadmap-number">03</span><div><strong>Performance toolkit</strong><small>Sample bank • expanded FX • hot cues • loops • MIDI profiles</small></div><span class="roadmap-status queued">PLANNED</span></div>
+        <div class="roadmap-item"><span class="roadmap-number">04</span><div><strong>Studio intelligence</strong><small>Recording refinements • AI DJ Coach • broadcast options</small></div><span class="roadmap-status queued">PLANNED</span></div>
+        <div class="roadmap-item"><span class="roadmap-number">05</span><div><strong>Phone / tablet remote</strong><small>QR pairing • secure session link • wireless touchscreen controls</small></div><span class="roadmap-status queued">PLANNED</span></div>
+        <div class="roadmap-item"><span class="roadmap-number">06</span><div><strong>Four-deck expansion</strong><small>Deck C / D • four-channel mixer • expanded routing and layout</small></div><span class="roadmap-status queued">PLANNED</span></div>
+      </div>
+      <div class="roadmap-item accuracy-gate">
+        <span class="roadmap-number">07</span>
+        <div><strong>BPM, beatgrid &amp; mapping accuracy lab</strong><small>Audio-based BPM analysis • half/double-time checks • downbeat and beat-grid validation • quantized loops • sync drift tests • reference-track test suite</small></div>
+        <span class="roadmap-status queued">ACCURACY GATE</span>
+      </div>
+      <p class="accuracy-note">Current BPM values are manually entered or tap-estimated. Automatic audio analysis, beat-grid/downbeat detection and verified sync accuracy are not yet active; they must pass the accuracy lab before being treated as authoritative.</p>
+    </section>
+      <div class="dj-pilot-invite">
+        <div class="dj-pilot-invite-copy">
+          <div class="section-kicker">FOUNDING DJ CIRCLE · EARLY ACCESS</div>
+          <h3>Help shape the next generation of RO’Lyfe.</h3>
+          <p>We're inviting a small group of DJs to try the studio, challenge the workflow, report bugs and help shape future features. Pilot participation and any affiliate partnership are discussed directly; no commission or payout is implied by this invitation.</p>
+        </div>
+        <a class="dj-pilot-invite-button" href="mailto:Robinsonrock@yahoo.com?subject=RO’Lyfe%20DJ%20Pilot%20%26%20Affiliate%20Invitation&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20invite%20you%20to%20preview%20RO’Lyfe%20DJ%20Performance%20Studio.%20We%27re%20organizing%20a%20small%20founding%20DJ%20circle%20to%20test%20the%20experience%2C%20share%20feedback%20and%20discuss%20possible%20affiliate%20or%20launch%20partnerships.%0A%0ALet%27s%20connect%20and%20talk%20about%20what%20you%20would%20want%20to%20see%20in%20the%20studio.%0A%0A—%20RO’Lyfe%20DJ%20Studio">INVITE ROBINSONROCK ↗</a>
+      </div>
+    <footer class="footer"><div class="footer-brand">RO’LYFE <span>DJ STUDIO</span></div><div>YOUR MUSIC. YOUR MIX. YOUR MOMENT.</div><div class="footer-version">FOUNDATION 11 • MOBILE PERFORMANCE &amp; ACCURACY</div></footer>
+  </main>
+  <div class="studio-side-tools" aria-label="Quick studio navigation">
+    <button type="button" id="deckJumpButton" title="Jump to the two live decks">DECKS</button>
+    <button type="button" id="fxDrawerToggle" aria-expanded="false" aria-controls="fxDrawerPanel">FX + SAMPLES</button>
+  </div>
+  <div class="fx-drawer-scrim" id="fxDrawerScrim"></div>
+  <aside class="fx-drawer" id="fxDrawerPanel" aria-hidden="true" aria-label="Performance effects and sample pads">
+    <header class="fx-drawer-head"><div><div class="section-kicker">RO’LYFE PERFORMANCE BANK</div><h2>FX &amp; Samples</h2><p>One-touch accents and your own saved sounds.</p></div><button type="button" id="fxDrawerClose" aria-label="Close FX drawer">×</button></header>
+    <label class="fx-output-control">FX / SAMPLE VOLUME <input type="range" id="fxOutputVolume" min="0" max="1" step="0.05" value="0.8"><output id="fxOutputVolumeValue">80%</output></label>
+    <section class="fx-drawer-section"><h3>RO’LYFE FX</h3><div class="fx-drawer-pads">
+      <button type="button" data-fx-pad="horn">AIR HORN</button><button type="button" data-fx-pad="siren">SIREN</button>
+      <button type="button" data-fx-pad="riser">RISER</button><button type="button" data-fx-pad="drop">BASS DROP</button>
+      <button type="button" data-fx-pad="laser">LASER</button><button type="button" data-fx-pad="scratch">SCRATCH STAB</button>
+      <button type="button" data-fx-pad="vinyl">VINYL STOP</button><button type="button" data-fx-pad="rewind">REWIND</button>
+    </div></section>
+    <section class="fx-drawer-section"><div class="fx-sample-head"><div><h3>MY SAMPLE PADS</h3><p>Load a one-shot, vocal drop, jingle or loop. Each slot is saved on this device.</p></div><button type="button" id="fxAddSamples">＋ ADD SAMPLES</button></div>
+      <input type="file" id="fxSampleFiles" class="file-input" multiple accept="audio/*,.mp3,.wav,.m4a,.ogg,.flac,.aiff">
+      <div class="fx-sample-grid" id="fxSampleGrid"></div><div class="fx-sample-status" id="fxSampleStatus" role="status" aria-live="polite">Your saved sound slots appear here.</div>
+    </section>
+    <p class="fx-drawer-foot">Performance FX are mixed into the master output. Custom samples are stored locally and also added to My Crate when supported.</p>
+  </aside>
+  <div class="crate-picker-overlay" id="cratePickerOverlay" aria-hidden="true">
+    <section class="crate-picker" role="dialog" aria-modal="true" aria-labelledby="cratePickerTitle">
+      <header><div><div class="section-kicker">LOAD FROM YOUR SAVED MUSIC</div><h2 id="cratePickerTitle">Choose a track for Deck A</h2></div><button type="button" id="cratePickerClose" aria-label="Close crate picker">×</button></header>
+      <div class="crate-picker-list" id="cratePickerList"></div>
+      <footer><button type="button" class="raised-action" id="cratePickerStarter">OPEN SHARED STARTER CRATE</button><button type="button" class="gold-button" id="cratePickerBrowse">＋ ADD NEW FILE</button></footer>
+      <p>Saved tracks load directly from this device's crate. No second download is needed.</p>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="mobile-mix-scrim" id="mobileMixScrim"></div>
+  <aside class="mobile-mix-panel" id="mobileMixPanel" aria-hidden="true" aria-label="Quick mixer controls">
+    <div class="mobile-mix-head"><div><div class="section-kicker">ON-THE-GO MIXER</div><strong>Quick mix controls</strong></div><button type="button" id="mobileMixClose" aria-label="Close quick mixer">×</button></div>
+    <div class="mobile-bpm-readouts"><div><span>DECK A BPM</span><strong id="mobileBpmA">120 BPM*</strong></div><div><span>DECK B BPM</span><strong id="mobileBpmB">120 BPM*</strong></div></div>
+    <label class="mobile-mix-control"><span>CHANNEL A LEVEL</span><input id="mobileChannelA" type="range" min="0" max="1.25" step="0.01" value="1"><output id="mobileChannelAValue">100%</output></label>
+    <label class="mobile-mix-control"><span>CROSSFADER · A ↔ B</span><input id="mobileCrossfader" type="range" min="0" max="100" value="50"><output id="mobileCrossfaderValue">CENTER</output></label>
+    <label class="mobile-mix-control"><span>CHANNEL B LEVEL</span><input id="mobileChannelB" type="range" min="0" max="1.25" step="0.01" value="1"><output id="mobileChannelBValue">100%</output></label>
+    <label class="mobile-mix-control"><span>MASTER LEVEL</span><input id="mobileMasterVolume" type="range" min="0" max="1" step="0.01" value="0.82"><output id="mobileMasterVolumeValue">82%</output></label>
+    <div class="mobile-mix-actions"><button type="button" id="mobileCenterCrossfader">CENTER MIX</button><a href="#mixer" id="fullMixerLink">OPEN FULL MIXER</a></div>
+  </aside>
+  <button class="mobile-mix-toggle" id="mobileMixToggle" type="button" aria-expanded="false" aria-controls="mobileMixPanel" aria-label="Open quick mixer">☷ MIX</button>
+  <section class="dj-guide-panel" id="djGuidePanel" role="region" aria-labelledby="djGuideTitle" aria-hidden="true">
+    <div class="dj-guide-top">
+      <div><div class="section-kicker">RO’LYFE · LIVE COACH</div><h2 id="djGuideTitle">Show Me How to DJ</h2></div>
+      <button class="dj-guide-close" id="djGuideClose" type="button" aria-label="Close DJ guide">×</button>
+    </div>
+    <div class="dj-guide-toolbar">
+      <label for="djGuideLesson">LESSON
+        <select id="djGuideLesson">
+          <option value="autoBlend" selected>Auto Blend · automatic transition</option>
+          <option value="firstMix">First Mix · two decks</option>
+          <option value="manualFade">Manual Fade · crossfader</option>
+          <option value="bpmSync">BPM · tap and sync</option>
+          <option value="cuesLoops">Hot Cues · beat loops</option>
+          <option value="effects">Performance · FX pads</option>
+          <option value="scratch">Jog Wheel &amp; Scratch</option>
+        </select>
+      </label>
+      <button class="dj-guide-toggle" id="djGuideVoice" type="button" aria-pressed="true">VOICE ON</button>
+      <button class="dj-guide-toggle" id="djGuideHelpMode" type="button" aria-pressed="false">CONTROL HELP OFF</button>
+    </div>
+    <div class="dj-guide-live-readout" id="djGuideLiveReadout" aria-live="polite">
+      <div class="dj-guide-live-heading"><span>LIVE SET CO-PILOT</span><b id="djGuideLiveBadge">WAITING FOR DECKS</b></div>
+      <label class="dj-guide-follow-toggle"><input type="checkbox" id="djGuideFollowMix" checked> FOLLOW MY MIX · RECOGNIZE MY CONTROLS</label>
+      <p id="djGuideLiveStatus">Checking Deck A and Deck B…</p>
+      <div class="dj-guide-action-receipt" id="djGuideActionReceipt">I'M LISTENING · YOUR FIRST MOVE WILL APPEAR HERE</div>
+      <button type="button" id="djGuideLiveNext" class="dj-guide-next">WHAT SHOULD I DO NEXT?</button>
+    </div>
+    <div class="dj-guide-voice-settings">
+      <label>COACH VOICE<select id="djGuideVoiceChoice"><option value="">DEVICE DEFAULT</option></select></label>
+      <label class="coach-volume-control">COACH VOLUME <input id="djGuideVoiceVolume" type="range" min="0" max="1" step="0.05" value="0.85"><output id="djGuideVoiceVolumeValue">85%</output></label>
+      <label class="coach-continuous"><input id="djGuideContinuous" type="checkbox" checked> TALK THROUGH EACH NEXT STEP</label>
+    </div>
+    <div class="dj-guide-progress"><span id="djGuideProgress">STEP 1 OF 5</span><span class="dj-guide-progress-track"><i id="djGuideProgressFill"></i></span></div>
+    <div class="dj-guide-step">
+      <div class="dj-guide-step-kicker">YOUR NEXT MOVE</div>
+      <h3 id="djGuideStepTitle">Load your first track</h3>
+      <p id="djGuideStepText">Follow the highlighted control. The guide can read the instructions aloud.</p>
+      <button class="dj-guide-starter-launch" id="djGuideStarterPackButton" type="button">START A PACK NOW ↗</button>
+      <div class="dj-guide-target-note" id="djGuideTargetNote">THE HIGHLIGHT SHOWS WHERE TO GO</div>
+    </div>
+    <details class="dj-guide-questions" id="djGuideQuestions">
+      <summary>30 QUICK QUESTIONS · PICK WHAT YOU WANT TO LEARN</summary>
+      <div class="dj-guide-question-content">
+        <label for="djGuideQuestionSelect">WHAT DO YOU WANT EXPLAINED?</label>
+        <select id="djGuideQuestionSelect"></select>
+        <p id="djGuideQuestionAnswer">Choose a question, then select Explain &amp; Talk. Your music is not intentionally paused by the coach.</p>
+        <div class="dj-guide-question-actions">
+          <button type="button" class="dj-guide-next" id="djGuideQuestionTalk">EXPLAIN &amp; TALK</button>
+          <button type="button" class="dj-guide-secondary" id="djGuideRecordVoice">● RECORD MY VOICE</button>
+          <button type="button" class="dj-guide-secondary" id="djGuideStopVoice" disabled>STOP &amp; SAVE</button>
+          <button type="button" class="dj-guide-secondary" id="djGuidePlayVoice" disabled>PLAY MY VOICE</button>
+        </div>
+        <label class="dj-guide-use-voice"><input type="checkbox" id="djGuideUseMyVoice"> USE MY RECORDED ANSWER WHEN AVAILABLE</label>
+        <div class="dj-guide-foot" id="djGuideRecordingStatus" role="status" aria-live="polite">Record your own answer for the selected topic. Clips stay in this browser on this device; this does not clone your voice.</div>
+      </div>
+    </details>
+    <div class="dj-guide-actions">
+      <button class="dj-guide-secondary" id="djGuidePrevious" type="button">← BACK</button>
+      <button class="dj-guide-secondary" id="djGuideReplay" type="button">↻ REPEAT</button>
+      <button class="dj-guide-next" id="djGuideNext" type="button">NEXT STEP →</button>
+    </div>
+    <div class="dj-guide-foot" id="djGuideStatus" role="status" aria-live="polite">Voice guidance uses your device's built-in speech. No cloud voice service is required.</div>
+  </section>
+
+  <div class="pilot-overlay" id="pilotKit" aria-hidden="true">
+    <section class="pilot-dialog" role="dialog" aria-modal="true" aria-labelledby="pilotTitle">
+      <header class="pilot-dialog-head">
+        <div><div class="section-kicker">RO’LYFE DJ STUDIO</div><h2 id="pilotTitle">Weekend DJ Pilot Test</h2><p>Check the two-deck workflow, controls and device compatibility on this device.</p></div>
+        <button class="pilot-close" id="closePilotKit" type="button" aria-label="Close pilot kit">×</button>
+      </header>
+      <section class="pilot-weekend-plan">
+        <div class="section-kicker">WEEKEND DJ PILOT · PHONE FIRST, LAPTOP SECOND</div>
+        <h3>1 · Start on the phone</h3>
+        <p>Open RO’Lyfe in the phone browser. Load two local tracks, leave FOLLOW MY MIX on, and work through loading, cue, BPM, Sync, loops, EQ, FX, crossfader and Auto Blend. Confirm the Coach recognizes each action and keeps guiding after the second track loads.</p>
+        <h3>2 · Repeat on the laptop</h3>
+        <p>At home, open the same studio on the laptop and repeat the set. Check the larger display, drag-and-drop crate, radio input, sound effects, recording and any connected DJ controller. Music files saved on the phone do not automatically sync to the laptop; load the tracks on each device for its test.</p>
+        <p class="pilot-weekend-note">Use the same two reference tracks on both devices when possible. Note browser, device, track BPM source (manual or tap) and any timing drift. Report what you actually observed—do not mark a feature passed just because its button lit up.</p>
+      </section>
+      <div class="pilot-columns">
+        <section class="pilot-check-card"><div class="section-kicker">TEST THE INSTRUMENT</div><h3>What worked?</h3>
+          <div class="pilot-checklist">
+            <label><input type="checkbox" data-pilot-check value="loadA"> Loaded a track on Deck A</label>
+            <label><input type="checkbox" data-pilot-check value="loadB"> Loaded a track on Deck B</label>
+            <label><input type="checkbox" data-pilot-check value="play"> Play / pause on both decks</label>
+            <label><input type="checkbox" data-pilot-check value="crossfade"> Crossfader blended the tracks</label>
+            <label><input type="checkbox" data-pilot-check value="eq"> EQ knobs changed the sound</label>
+            <label><input type="checkbox" data-pilot-check value="cues"> Cue and hot cues worked</label>
+            <label><input type="checkbox" data-pilot-check value="loop"> Beat loop started and exited</label>
+            <label><input type="checkbox" data-pilot-check value="fx"> FX pads made sound</label>
+            <label><input type="checkbox" data-pilot-check value="record"> Mix recorded and downloaded</label>
+            <label><input type="checkbox" data-pilot-check value="touch"> Touchscreen controls responded</label>
+            <label><input type="checkbox" data-pilot-check value="radio"> Authorized radio stream loaded (optional)</label>
+            <label><input type="checkbox" data-pilot-check value="video"> Local video mixer worked (optional)</label>
+          </div>
+        </section>
+        <section class="pilot-check-card"><div class="section-kicker">SEND BACK YOUR FINDINGS</div><h3>Notes and issues</h3>
+          <label class="pilot-notes-label" for="pilotNotes">What felt good? What failed? Which controller and device did you use?</label>
+          <textarea id="pilotNotes" rows="6" placeholder="PHONE FIRST: device / browser, what worked, what failed, did the Coach recognize each action? LAPTOP SECOND: repeat the same tracks, note differences, BPM / timing, radio, FX, recording..."></textarea>
+          <button class="gold-button" id="copyPilotReport" type="button">COPY TEST REPORT</button>
+          <textarea id="pilotReportOutput" rows="5" readonly aria-label="Generated pilot report" placeholder="Your test report appears here if clipboard access is unavailable."></textarea>
+        </section>
+      </div>
+      <p class="pilot-limit-note"><strong>Known limits:</strong> the jog wheel now responds to circular platter movement for track scrubbing and visibly spins during playback; full reverse-audio vinyl scratching is still in the next audio-engine milestone. MIDI support is basic and browser-dependent. Headphone cue routing and universal controller compatibility still need real hardware work. This preview is for testing, not paid gigs.</p>
+    </section>
+  </div>
+    <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/starter-crate.js"></script>
+  <script type="module" src="./src/pilot-kit.js"></script>
+  <script type="module" src="./src/studio-upgrades.js"></script>
+  <script type="module" src="./src/video-mixer.js"></script>
+  <script type="module" src="./src/dj-guide.js"></script>
+  <script type="module" src="./src/crate-picker.js"></script>
+  <script type="module" src="./src/coach-voice-questions.js"></script>
+  <script type="module" src="./src/studio-controls.js"></script>
+</body>
+</html>

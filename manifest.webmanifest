@@ -1,0 +1,14 @@
+{
+  "name": "RO’Lyfe DJ Studio",
+  "short_name": "RO’Lyfe DJ",
+  "description": "A touch-ready DJ performance workstation.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080909",
+  "theme_color": "#090909",
+  "orientation": "any",
+  "icons": [
+    { "src": "./assets/rolyfe-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
