@@ -42,6 +42,7 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Verify direct-entry startup on phone, tablet and desktop
+        timeout-minutes: 3
         env:
           DJ_STUDIO_BRAND: rolyfe
         run: node scripts/smoke-browser.mjs
