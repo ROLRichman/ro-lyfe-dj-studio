@@ -35,3 +35,13 @@ jobs:
 
       - name: Validate RO’Lyfe feature wiring
         run: node scripts/validate-studio.mjs
+
+      - name: Install Chromium for real browser startup tests
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+
+      - name: Verify direct-entry startup on phone, tablet and desktop
+        env:
+          DJ_STUDIO_BRAND: rolyfe
+        run: node scripts/smoke-browser.mjs
