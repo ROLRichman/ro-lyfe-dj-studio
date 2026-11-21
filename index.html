@@ -75,87 +75,6 @@
   </section>
 
   <main class="app-shell" id="studio">
-    <section class="welcome-row">
-      <div>
-        <div class="eyebrow">THE SOUND. THE SKILL. THE SET.</div>
-        <h1>Your sound. <span>Your set.</span></h1>
-        <p class="intro">Load your music, connect a supported radio stream, and mix across two live decks.</p>
-      </div>
-      <div class="session-card">
-        <div class="session-label">SESSION TIMER</div>
-        <div class="session-time" id="sessionTimer">00:00:00</div>
-        <div class="session-date" id="studioDateTime" aria-label="Live local calendar date and time">CALENDAR · LOCAL CLOCK</div>
-        <div class="session-foot"><span class="tiny-gold-dot"></span> SESSION ELAPSED · LOCAL DATE &amp; TIME</div>
-      </div>
-    </section>
-
-    <section class="transport-strip panel">
-      <div class="transport-left">
-        <div class="transport-title">MASTER TRANSPORT</div>
-        <div class="transport-sub">Load local tracks to begin mixing</div>
-      </div>
-      <div class="master-meter-wrap">
-        <div class="meter-label"><span>MASTER OUTPUT</span><span id="masterDb">— dB</span></div>
-        <div class="meter-track"><div class="meter-fill" id="masterMeter"></div></div>
-      </div>
-      <div class="master-control">
-        <label for="masterVolume">MASTER</label>
-        <input id="masterVolume" class="gold-range" type="range" min="0" max="1" step="0.01" value="0.82" />
-        <output id="masterVolumeValue">82%</output>
-      </div>
-      <div class="record-wrap">
-        <button class="record-button" id="recordButton"><span class="record-icon"></span><span id="recordLabel">REC BOTH DECKS</span></button>
-        <span class="record-note" id="recordNote">BOTH DECKS · LOCAL MASTER MIX</span>
-      </div>
-      <div class="auto-blend-wrap"><button class="raised-action auto-blend-button" id="autoBlendButton" type="button" aria-pressed="false">✦ AUTO BLEND</button><label for="autoBlendDuration">FADE</label><select id="autoBlendDuration" aria-label="Auto Blend fade duration"><option value="4">4 SEC</option><option value="8" selected>8 SEC</option><option value="12">12 SEC</option><option value="16">16 SEC</option></select><span class="auto-blend-status" id="autoBlendStatus" aria-live="polite">READY · START ONE DECK</span></div>
-    </section>
-
-    <details class="crate-dock-shell panel" id="crate-dock">
-      <summary class="crate-dock-summary">
-        <div class="crate-dock-summary-copy">
-          <div class="section-kicker">ONE PLACE · STARTER PACK &amp; MUSIC</div>
-          <h2>RO’Lyfe Starter Pack</h2>
-          <p>Open one pack to load a ready-to-play practice loop, a Batch 1 shared track, or music from your personal crate to Deck A or Deck B.</p>
-        </div>
-        <span class="crate-dock-open-label">OPEN STARTER PACK <b aria-hidden="true">⌄</b></span>
-      </summary>
-      <div class="crate-dock-content">
-        <section class="starter-crate panel" id="starter-crate" aria-labelledby="starterCrateTitle">
-                  <div class="starter-crate-head">
-                    <div>
-                      <div class="starter-crate-kicker">RO’LYFE · BATCH 1 SHARED LIBRARY</div>
-                      <h2 id="starterCrateTitle">Shared Tracks</h2>
-                      <p class="starter-crate-copy">Six original Batch 1 track slots. When a shared audio file is published, load it directly to either deck. Until then, choose your local copy with the matching button.</p>
-                    </div>
-                    <div class="starter-crate-count" id="starterCrateCount">CHECKING · 6 TRACKS</div>
-                  </div>
-                  <div class="starter-crate-status" id="starterCrateStatus" role="status" aria-live="polite">CHECKING SHARED BATCH 1 AUDIO…</div>
-                  <section class="starter-practice-loops" aria-labelledby="starterPracticeTitle">
-                    <div class="starter-practice-copy">
-                      <div class="starter-crate-kicker">READY NOW · BUILT INTO THE STUDIO</div>
-                      <h3 id="starterPracticeTitle">Quick Practice Loops</h3>
-                      <p>Two original practice tracks are generated on this device and load straight into the working decks. No download or extra music file is needed.</p>
-                    </div>
-                    <div class="starter-practice-actions">
-                      <button class="gold-button" id="loadDemoPair" type="button">LOAD BOTH · DECK A + B</button>
-                      <button class="raised-action" id="loadDemoA" type="button">LOAD LOOP A · 96 BPM</button>
-                      <button class="raised-action" id="loadDemoB" type="button">LOAD LOOP B · 100 BPM</button>
-                    </div>
-                  </section>
-                  <div class="starter-crate-rows" id="starterCrateRows"></div>
-                </section>
-
-      </div>
-    </details>
-
-
-    <section class="library panel crate-dock my-tracks-dock" id="library">
-      <div class="my-tracks-head"><div><div class="section-kicker">QUICK ACCESS · LOAD DIRECTLY TO A DECK</div><h2>My Tracks</h2><p>Your saved music is right here. Load any track straight into Deck A or B—no crate dropdown required.</p></div><div class="crate-actions"><button class="gold-button" id="addLibraryButton">＋ ADD TRACKS</button><button class="raised-action" id="restoreSessionButton" type="button" disabled>RESTORE LAST SET</button></div><input type="file" id="libraryFiles" class="file-input" multiple accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff"></div>
-      <div class="crate-storage-note" id="crateStorageStatus">LOCAL CRATE · SAVED ON THIS DEVICE</div>
-      <div class="library-table-wrap"><table class="library-table"><thead><tr><th>TRACK</th><th>FORMAT</th><th>SIZE</th><th>LOAD DIRECTLY</th></tr></thead><tbody id="libraryRows"><tr class="empty-row"><td colspan="4"><span class="empty-library-icon">♫</span><strong>Your crate is waiting.</strong><span>Add audio files to build this session's library.</span></td></tr></tbody></table></div>
-    </section>
-
-
 
     <details class="decks-panel panel" id="deckWorkspace" open>
       <summary class="decks-panel-summary">
@@ -310,6 +229,91 @@
       </article>
     </section>
     </details>
+
+
+    <section class="welcome-row">
+      <div>
+        <div class="eyebrow">THE SOUND. THE SKILL. THE SET.</div>
+        <h1>Your sound. <span>Your set.</span></h1>
+        <p class="intro">Load your music, connect a supported radio stream, and mix across two live decks.</p>
+      </div>
+      <div class="session-card">
+        <div class="session-label">SESSION TIMER</div>
+        <div class="session-time" id="sessionTimer">00:00:00</div>
+        <div class="session-date" id="studioDateTime" aria-label="Live local calendar date and time">CALENDAR · LOCAL CLOCK</div>
+        <div class="session-foot"><span class="tiny-gold-dot"></span> SESSION ELAPSED · LOCAL DATE &amp; TIME</div>
+      </div>
+    </section>
+
+    <section class="transport-strip panel">
+      <div class="transport-left">
+        <div class="transport-title">MASTER TRANSPORT</div>
+        <div class="transport-sub">Load local tracks to begin mixing</div>
+      </div>
+      <div class="master-meter-wrap">
+        <div class="meter-label"><span>MASTER OUTPUT</span><span id="masterDb">— dB</span></div>
+        <div class="meter-track"><div class="meter-fill" id="masterMeter"></div></div>
+      </div>
+      <div class="master-control">
+        <label for="masterVolume">MASTER</label>
+        <input id="masterVolume" class="gold-range" type="range" min="0" max="1" step="0.01" value="0.82" />
+        <output id="masterVolumeValue">82%</output>
+      </div>
+      <div class="record-wrap">
+        <button class="record-button" id="recordButton"><span class="record-icon"></span><span id="recordLabel">REC BOTH DECKS</span></button>
+        <span class="record-note" id="recordNote">BOTH DECKS · LOCAL MASTER MIX</span>
+      </div>
+      <div class="auto-blend-wrap"><button class="raised-action auto-blend-button" id="autoBlendButton" type="button" aria-pressed="false">✦ AUTO BLEND</button><label for="autoBlendDuration">FADE</label><select id="autoBlendDuration" aria-label="Auto Blend fade duration"><option value="4">4 SEC</option><option value="8" selected>8 SEC</option><option value="12">12 SEC</option><option value="16">16 SEC</option></select><span class="auto-blend-status" id="autoBlendStatus" aria-live="polite">READY · START ONE DECK</span></div>
+    </section>
+
+    <details class="crate-dock-shell panel" id="crate-dock">
+      <summary class="crate-dock-summary">
+        <div class="crate-dock-summary-copy">
+          <div class="section-kicker">ONE PLACE · STARTER PACK &amp; MUSIC</div>
+          <h2>RO’Lyfe Starter Pack</h2>
+          <p>Open one pack to load a ready-to-play practice loop, a Batch 1 shared track, or music from your personal crate to Deck A or Deck B.</p>
+        </div>
+        <span class="crate-dock-open-label">OPEN STARTER PACK <b aria-hidden="true">⌄</b></span>
+      </summary>
+      <div class="crate-dock-content">
+        <section class="starter-crate panel" id="starter-crate" aria-labelledby="starterCrateTitle">
+                  <div class="starter-crate-head">
+                    <div>
+                      <div class="starter-crate-kicker">RO’LYFE · BATCH 1 SHARED LIBRARY</div>
+                      <h2 id="starterCrateTitle">Shared Tracks</h2>
+                      <p class="starter-crate-copy">Six original Batch 1 track slots. When a shared audio file is published, load it directly to either deck. Until then, choose your local copy with the matching button.</p>
+                    </div>
+                    <div class="starter-crate-count" id="starterCrateCount">CHECKING · 6 TRACKS</div>
+                  </div>
+                  <div class="starter-crate-status" id="starterCrateStatus" role="status" aria-live="polite">CHECKING SHARED BATCH 1 AUDIO…</div>
+                  <section class="starter-practice-loops" aria-labelledby="starterPracticeTitle">
+                    <div class="starter-practice-copy">
+                      <div class="starter-crate-kicker">READY NOW · BUILT INTO THE STUDIO</div>
+                      <h3 id="starterPracticeTitle">Quick Practice Loops</h3>
+                      <p>Two original practice tracks are generated on this device and load straight into the working decks. No download or extra music file is needed.</p>
+                    </div>
+                    <div class="starter-practice-actions">
+                      <button class="gold-button" id="loadDemoPair" type="button">LOAD BOTH · DECK A + B</button>
+                      <button class="raised-action" id="loadDemoA" type="button">LOAD LOOP A · 96 BPM</button>
+                      <button class="raised-action" id="loadDemoB" type="button">LOAD LOOP B · 100 BPM</button>
+                    </div>
+                  </section>
+                  <div class="starter-crate-rows" id="starterCrateRows"></div>
+                </section>
+
+      </div>
+    </details>
+
+
+    <section class="library panel crate-dock my-tracks-dock" id="library">
+      <div class="my-tracks-head"><div><div class="section-kicker">QUICK ACCESS · LOAD DIRECTLY TO A DECK</div><h2>My Tracks</h2><p>Your saved music is right here. Load any track straight into Deck A or B—no crate dropdown required.</p></div><div class="crate-actions"><button class="gold-button" id="addLibraryButton">＋ ADD TRACKS</button><button class="raised-action" id="restoreSessionButton" type="button" disabled>RESTORE LAST SET</button></div><input type="file" id="libraryFiles" class="file-input" multiple accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff"></div>
+      <div class="crate-storage-note" id="crateStorageStatus">LOCAL CRATE · SAVED ON THIS DEVICE</div>
+      <div class="library-table-wrap"><table class="library-table"><thead><tr><th>TRACK</th><th>FORMAT</th><th>SIZE</th><th>LOAD DIRECTLY</th></tr></thead><tbody id="libraryRows"><tr class="empty-row"><td colspan="4"><span class="empty-library-icon">♫</span><strong>Your crate is waiting.</strong><span>Add audio files to build this session's library.</span></td></tr></tbody></table></div>
+    </section>
+
+
+
+
 
 
 
@@ -606,14 +610,6 @@
       <p class="pilot-limit-note"><strong>Known limits:</strong> the jog wheel now responds to circular platter movement for track scrubbing and visibly spins during playback; full reverse-audio vinyl scratching is still in the next audio-engine milestone. MIDI support is basic and browser-dependent. Headphone cue routing and universal controller compatibility still need real hardware work. This preview is for testing, not paid gigs.</p>
     </section>
   </div>
-    <script type="module" src="./src/main.js"></script>
-  <script type="module" src="./src/starter-crate.js"></script>
-  <script type="module" src="./src/pilot-kit.js"></script>
-  <script type="module" src="./src/studio-upgrades.js"></script>
-  <script type="module" src="./src/video-mixer.js"></script>
-  <script type="module" src="./src/dj-guide.js"></script>
-  <script type="module" src="./src/crate-picker.js"></script>
-  <script type="module" src="./src/coach-voice-questions.js"></script>
-  <script type="module" src="./src/studio-controls.js"></script>
+    <script type="module" src="./src/bootstrap.js"></script>
 </body>
 </html>

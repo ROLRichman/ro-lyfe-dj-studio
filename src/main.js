@@ -1188,7 +1188,10 @@ bindEvents();
 setupWheelSpinControls();
 renderLibrary();
 setAudioStatus(false);
-// Restore the personal crate after first paint so stored audio cannot block entry.\nconst scheduleCrateRestore = () => restoreSavedCrate();\nif ('requestIdleCallback' in window) requestIdleCallback(scheduleCrateRestore, { timeout: 2500 });\nelse setTimeout(scheduleCrateRestore, 1200);
+// Restore saved tracks after the first paint so local audio storage never blocks initial entry.
+const scheduleCrateRestore = () => restoreSavedCrate();
+if ('requestIdleCallback' in window) requestIdleCallback(scheduleCrateRestore, { timeout: 2500 });
+else setTimeout(scheduleCrateRestore, 1200);
 requestAnimationFrame(animateMeters);
 // Service worker temporarily disabled while resolving startup hang.
 window.addEventListener('beforeunload', () => {

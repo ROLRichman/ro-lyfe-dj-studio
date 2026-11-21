@@ -3,6 +3,7 @@ const APP_SHELL = [
   './',
   './index.html',
   './styles.css',
+  './src/bootstrap.js',
   './src/main.js',
   './src/pilot-kit.js',
   './src/studio-upgrades.js',

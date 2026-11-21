@@ -5,6 +5,7 @@ const fail = message => { console.error('FAIL:', message); process.exitCode = 1;
 const pass = message => console.log('PASS:', message);
 
 const html = read('index.html');
+const bootstrap = read('src/bootstrap.js');
 const main = read('src/main.js');
 const guide = read('src/dj-guide.js');
 const questions = read('src/coach-voice-questions.js');
@@ -26,6 +27,18 @@ const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 if (duplicates.length) fail('Duplicate HTML IDs: ' + [...new Set(duplicates)].join(', '));
 else pass('HTML IDs are unique');
 
+if (!html.includes('src/bootstrap.js')
+  || !bootstrap.includes("'./main.js'")
+  || bootstrap.indexOf("'./main.js'") > bootstrap.indexOf("'./studio-controls.js'")) {
+  fail('Single ordered startup coordinator is missing or has the wrong module order');
+} else pass('Studio modules load sequentially, with the audio engine API first');
+
+if (!main.includes('const scheduleCrateRestore = () => restoreSavedCrate();')
+  || main.includes('stored audio cannot block entry.\\nconst scheduleCrateRestore')) {
+  fail('Saved music crate restoration is not scheduled after the initial paint');
+} else pass('Saved music crate restoration is scheduled after first paint');
+
+
 if (html.includes('id="frontDoor"') || html.includes('id="guestPreviewButton"') || html.includes('ENTER STUDIO') || html.includes('WELCOME TO')) {
   fail('A blocking welcome/front-door entry screen is still present');
 } else pass('Studio opens directly without a welcome gate or Enter Studio step');
@@ -35,11 +48,11 @@ if (!html.includes('RO’Lyfe DJ Studio') || !html.includes('./assets/rolyfe-mar
 } else pass('RO’Lyfe title and app mark are wired into the entry document');
 
 
-const layoutIds = ['crate-dock', 'decks', 'crossfader-dock', 'mixer'];
+const layoutIds = ['deckWorkspace', 'decks', 'crate-dock', 'crossfader-dock', 'mixer'];
 const positions = layoutIds.map(id => html.indexOf('id="' + id + '"'));
 if (positions.some(position => position < 0) || positions.some((position, index) => index && position <= positions[index - 1])) {
-  fail('Expected layout order: crate → two decks / wheels → crossfader → Central Mixer');
-} else pass('Crate, decks, crossfader and Central Mixer are in the requested order');
+  fail('Expected layout order: Deck A/B first → Starter Pack → crossfader → Central Mixer');
+} else pass('Deck A/B workspace is first, followed by Starter Pack, crossfader and Central Mixer');
 
 const themes = ['golden-signature', 'midnight-blue', 'ocean-teal', 'violet-pulse', 'crimson-club', 'arctic-silver'];
 if (themes.some(theme => !html.includes(theme) && !controls.includes(theme))) fail('One or more of the six themes are missing');

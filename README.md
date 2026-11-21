@@ -6,7 +6,7 @@ RO’Lyfe DJ Studio is a browser-based, two-deck DJ workstation built for deskto
 
 ## Start directly in the studio
 
-There is no welcome gate, sign-in screen, or separate “Enter Studio” button. Opening the app loads the DJ workstation directly.
+There is no welcome gate, sign-in screen, or separate “Enter Studio” button. Opening the app loads the DJ workstation directly. The dual-deck workspace is the first major section on the page, and the startup coordinator loads the engine before the supporting DJ modules.
 
 ## Included workspace
 
@@ -32,6 +32,9 @@ There is no welcome gate, sign-in screen, or separate “Enter Studio” button.
 - [x] Original DJ workspace source copied into this repository
 - [x] RO’Lyfe branding applied to the app entry, manifest, and service worker
 - [x] Welcome/front-door gate removed; app opens directly to the workstation
+- [x] Dual-deck workspace moved to the top of the page
+- [x] Ordered startup coordinator added with a visible error message if a module fails
+- [x] Saved-crate restoration scheduled after the initial render
 - [ ] Full code and asset audit
 - [ ] Desktop, tablet, and mobile testing
 - [ ] Dual-deck, radio, local crate, and media workflow validation
