@@ -29,9 +29,14 @@ else pass('HTML IDs are unique');
 
 if (!html.includes('src/bootstrap.js')
   || !bootstrap.includes("'./main.js'")
+  || !bootstrap.includes('await import(path)')
+  || !bootstrap.includes('window.ROLyfeStudio')
   || bootstrap.indexOf("'./main.js'") > bootstrap.indexOf("'./studio-controls.js'")) {
   fail('Single ordered startup coordinator is missing or has the wrong module order');
 } else pass('Studio modules load sequentially, with the audio engine API first');
+
+if (!html.includes('rolyfe-dj-cache-cleanup-entry-2') || !html.includes('getRegistrations')) fail('Old RO’Lyfe service-worker shell is not cleared on entry');
+else pass('Old RO’Lyfe service-worker registrations and caches are cleared on entry');
 
 if (!main.includes('const scheduleCrateRestore = () => restoreSavedCrate();')
   || main.includes('stored audio cannot block entry.\\nconst scheduleCrateRestore')) {
@@ -198,7 +203,7 @@ if (!baseStyles.includes("left:12px!important") || !baseStyles.includes("right:a
   fail('Floating Quick MIX trigger is not moved into the reserved left-side touch lane');
 } else pass('Floating MIX touch zone is separated from right-side controls');
 
-if (!serviceWorker.includes("rolyfe-dj-studio-shell-v1")) {
+if (!serviceWorker.includes("rolyfe-dj-studio-shell-v2")) {
   fail('Service-worker cache version was not refreshed for the unified Starter Pack');
 } else pass('Service-worker cache refreshed for the unified Starter Pack update');
 
@@ -236,7 +241,7 @@ if (!html.includes('WEEKEND DJ PILOT · PHONE FIRST, LAPTOP SECOND') || !html.in
   fail('Weekend pilot instructions do not specify phone first and laptop second');
 } else pass('Weekend pilot instructions prioritize phone testing, then laptop');
 
-if (!serviceWorker.includes("rolyfe-dj-studio-shell-v1")) {
+if (!serviceWorker.includes("rolyfe-dj-studio-shell-v2")) {
   fail('Service-worker cache version was not refreshed for the unified Starter Pack');
 } else pass('Service-worker cache refreshed for the unified Starter Pack update');
 
