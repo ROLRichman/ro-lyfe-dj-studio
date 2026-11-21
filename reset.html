@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="theme-color" content="#090909">
+  <title>RO’Lyfe · Refresh Studio Cache</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#090b0a;color:#f4f0e6;font:15px/1.55 system-ui,sans-serif}
+    main{width:min(540px,100%);padding:28px;border:1px solid #b8914b66;border-radius:18px;background:#141713;box-shadow:0 24px 70px #0009}
+    h1{margin:0 0 10px;color:#edc675;font-size:22px}
+    p{color:#c7c3b8}
+    small{color:#a7a294}
+    #status{color:#f1d89f;font-weight:700}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>RO’Lyfe DJ Studio</h1>
+    <p id="status">Refreshing the old studio shell…</p>
+    <p>Your saved local music, recordings and crate are being preserved. This refresh clears only this studio’s old offline app cache.</p>
+    <small>When complete, the full DJ workstation opens automatically.</small>
+    <noscript>Please enable JavaScript, then reopen the main DJ Studio page.</noscript>
+  </main>
+  <script>
+    (async () => {
+      const status = document.getElementById('status');
+      const ownPath = new URL('./', location.href).pathname;
+      try {
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          const owned = registrations.filter(registration => {
+            try {
+              const scope = new URL(registration.scope);
+              return scope.origin === location.origin &&
+                (scope.pathname === ownPath || scope.pathname.startsWith(ownPath));
+            } catch (_) { return false; }
+          });
+          await Promise.all(owned.map(registration => registration.unregister()));
+        }
+        if ('caches' in window) {
+          const prefix = 'rolyfe-dj-studio-';
+          const keys = await caches.keys();
+          await Promise.all(keys.filter(key => key.startsWith(prefix)).map(key => caches.delete(key)));
+        }
+        status.textContent = 'Old studio cache cleared. Opening your DJ workstation…';
+      } catch (error) {
+        console.warn('Studio cache recovery:', error);
+        status.textContent = 'Cache refresh attempted. Opening your DJ workstation…';
+      }
+
+      const destination = new URL('./', location.href);
+      destination.searchParams.set('studio-refresh', '20261121');
+      window.setTimeout(() => location.replace(destination.href), 250);
+    })();
+  </script>
+</body>
+</html>
