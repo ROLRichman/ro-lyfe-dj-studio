@@ -70,6 +70,12 @@ try {
     const pageErrors = [];
     const failedCoreRequests = [];
 
+    // Remote fonts are decorative and should never hold the local app boot test open.
+    await page.route('https://fonts.googleapis.com/**', route =>
+      route.fulfill({ status: 200, contentType: 'text/css; charset=utf-8', body: '' })
+    );
+    await page.route('https://fonts.gstatic.com/**', route => route.abort());
+
     page.on('pageerror', error => pageErrors.push(error.message));
     page.on('requestfailed', request => {
       const url = request.url();
