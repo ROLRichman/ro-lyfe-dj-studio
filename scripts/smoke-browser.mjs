@@ -164,7 +164,8 @@ try {
     new Promise(resolve => setTimeout(resolve, 5000))
   ]);
   server.closeAllConnections?.();
-  await new Promise(resolve => server.close(resolve));
+  server.closeIdleConnections?.();
+  server.close();
 }
 
 if (failure) {
