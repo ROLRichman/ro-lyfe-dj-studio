@@ -57,7 +57,12 @@ function renderProgram() {
   }
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'source-over';
-  renderFrame = requestAnimationFrame(renderProgram);
+  // Avoid a permanent full-size canvas animation while the video mixer is idle.
+  if (hasA || hasB || (videoRecorder && videoRecorder.state !== 'inactive')) {
+    renderFrame = requestAnimationFrame(renderProgram);
+  } else {
+    renderFrame = 0;
+  }
 }
 function syncVideoToAudio(deckId) {
   const video = videoDecks[deckId].el;
