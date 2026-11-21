@@ -127,6 +127,7 @@ async function loadVideoDeck(deckId, file) {
     }
   }, { once: true });
   setVideoStatus();
+  if (!renderFrame) renderProgram();
   videoToast('Video Deck ' + deckId + ' loaded. Use the matching deck PLAY button to start picture and audio together.');
 }
 async function toggleVideoDeck(deckId) {
