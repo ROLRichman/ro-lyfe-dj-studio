@@ -21,7 +21,8 @@
     <h1>RO’Lyfe DJ Studio</h1>
     <p id="status">Refreshing the old studio shell…</p>
     <p>Your saved local music, recordings and crate are being preserved. This refresh clears only this studio’s old offline app cache.</p>
-    <small>When complete, the full DJ workstation opens automatically.</small>
+    <small id="details">Please keep this page open while the refresh completes.</small>
+    <button id="openStudio" type="button" style="display:none;margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#edc675;color:#111;font-weight:800;font-size:16px">OPEN DJ STUDIO</button>
     <noscript>Please enable JavaScript, then reopen the main DJ Studio page.</noscript>
   </main>
   <script>
@@ -53,7 +54,12 @@
 
       const destination = new URL('./', location.href);
       destination.searchParams.set('studio-refresh', '20261121');
-      window.setTimeout(() => location.replace(destination.href), 250);
+      destination.searchParams.set('reload', String(Date.now()));
+      status.textContent = 'Refresh finished. Ready to open the workstation.';
+      document.getElementById('details').textContent = 'Tap OPEN DJ STUDIO below. The refresh page will stay open until you are ready.';
+      const button = document.getElementById('openStudio');
+      button.style.display = 'block';
+      button.addEventListener('click', () => location.replace(destination.href), { once: true });
     })();
   </script>
 </body>
