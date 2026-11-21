@@ -62,6 +62,7 @@ try {
   ];
 
   for (const viewport of viewports) {
+    console.log(`[${viewport.name}] opening app shell`);
     const page = await browser.newPage({
       viewport: { width: viewport.width, height: viewport.height },
       isMobile: viewport.isMobile,
@@ -90,9 +91,10 @@ try {
       }
     });
 
-    const response = await page.goto(origin + '/', { waitUntil: 'domcontentloaded' });
+    const response = await page.goto(origin + '/', { waitUntil: 'domcontentloaded', timeout: 12000 });
     if (!response || !response.ok()) throw new Error(`${viewport.name}: app shell returned HTTP ${response?.status() ?? 'no response'}`);
 
+    console.log(`[${viewport.name}] waiting for full studio API`);
     await page.waitForFunction((selectedBrand) => {
       if (selectedBrand === 'goldensteal') {
         return window.__goldenStealStudioReady === true &&
@@ -146,7 +148,10 @@ try {
     if (failedCoreRequests.length) failedChecks.push('failed app resources: ' + failedCoreRequests.join(' | '));
 
     console.log(`[${viewport.name}] ${JSON.stringify(state)}`);
-    await page.close();
+    await Promise.race([
+      page.close(),
+      new Promise(resolve => setTimeout(resolve, 2500))
+    ]);
     if (failedChecks.length) throw new Error(`${viewport.name} smoke test failed: ${failedChecks.join('; ')}`);
   }
 
@@ -154,9 +159,17 @@ try {
 } catch (error) {
   failure = error;
 } finally {
-  await browser.close();
+  await Promise.race([
+    browser.close(),
+    new Promise(resolve => setTimeout(resolve, 5000))
+  ]);
   server.closeAllConnections?.();
   await new Promise(resolve => server.close(resolve));
 }
 
-if (failure) throw failure;
+if (failure) {
+  console.error('DJ Studio browser smoke test failed:', failure);
+  process.exit(1);
+}
+console.log(`PASS: ${brand} browser startup checks completed. Exiting cleanly.`);
+process.exit(0);
