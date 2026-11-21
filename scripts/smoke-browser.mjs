@@ -70,11 +70,17 @@ try {
     const pageErrors = [];
     const failedCoreRequests = [];
 
-    // Remote fonts are decorative and should never hold the local app boot test open.
-    await page.route('https://fonts.googleapis.com/**', route =>
-      route.fulfill({ status: 200, contentType: 'text/css; charset=utf-8', body: '' })
-    );
-    await page.route('https://fonts.gstatic.com/**', route => route.abort());
+    // This is an app-shell boot test: isolate local code from third-party media,
+    // embeds, and font hosts so external services cannot stall the browser.
+    await page.route('**/*', route => {
+      const requestUrl = new URL(route.request().url());
+      if ((requestUrl.protocol === 'http:' || requestUrl.protocol === 'https:') && requestUrl.origin !== origin) {
+        return route.abort();
+      }
+      return route.continue();
+    });
+    page.setDefaultTimeout(15000);
+    page.setDefaultNavigationTimeout(15000);
 
     page.on('pageerror', error => pageErrors.push(error.message));
     page.on('requestfailed', request => {
@@ -107,6 +113,7 @@ try {
       );
       const text = document.body.innerText.toUpperCase();
       const scrollable = document.documentElement.scrollHeight > window.innerHeight + 20;
+      document.documentElement.style.scrollBehavior = 'auto';
       window.scrollTo(0, scrollable ? 320 : 0);
       return {
         title: document.title,
@@ -130,6 +137,7 @@ try {
       if (!state[key]) failedChecks.push(key);
     }
     if (state.hasEntryGate) failedChecks.push('blocking entry gate is present');
+    if (state.horizontalOverflow) failedChecks.push('layout has horizontal overflow');
     if (viewport.isMobile && state.scrollable) {
       const scrollY = await page.evaluate(() => window.scrollY);
       if (scrollY < 1) failedChecks.push('phone/tablet page cannot scroll');
@@ -147,6 +155,7 @@ try {
   failure = error;
 } finally {
   await browser.close();
+  server.closeAllConnections?.();
   await new Promise(resolve => server.close(resolve));
 }
 
